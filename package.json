@@ -1,8 +1,8 @@
 {
-  "name": "defi-tutorial",
-  "version": "0.1.0",
-  "description": "DeFi Token Staking App",
-  "author": "gregory@dappuniversity.com",
+  "name": "loyalty-dapp",
+  "version": "0.0.1",
+  "description": "Loyalty distributed application",
+  "author": "Simone and Aaron",
   "dependencies": {
     "babel-polyfill": "6.26.0",
     "babel-preset-env": "1.7.0",
