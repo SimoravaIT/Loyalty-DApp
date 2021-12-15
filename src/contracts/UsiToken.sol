@@ -1,7 +1,7 @@
 pragma solidity >=0.5.0; //SAME
 
 
-//lo creeremo bene  con un tutorial
+//lo creeremo bene  con un tutorial questo é quello che diamo come reward a chi fa staking
 contract DappToken {
     string  public name = "USI Token";//DApp Token
     string  public symbol = "USTK";//DAPP
