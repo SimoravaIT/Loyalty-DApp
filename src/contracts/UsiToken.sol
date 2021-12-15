@@ -1,10 +1,12 @@
-pragma solidity >=0.5.0;
+pragma solidity >=0.5.0; //SAME
 
+
+//lo creeremo bene  con un tutorial
 contract DappToken {
-    string  public name = "DApp Token";
-    string  public symbol = "DAPP";
+    string  public name = "USI Token";//DApp Token
+    string  public symbol = "USTK";//DAPP
     uint256 public totalSupply = 1000000000000000000000000; // 1 million tokens
-    uint8   public decimals = 18;
+    uint8   public decimals = 18; //remember, how many number after the ,
 
     event Transfer(
         address indexed _from,
