@@ -15,7 +15,7 @@ utility commands:
 <br />
 **truffle migrate**v -> put the compiled smart contract on the blockchain
 <br />
-**testo**
+**truffle console**->interact with the smart contracts on the blockchain
 <br />
 **testo**
 <br />
