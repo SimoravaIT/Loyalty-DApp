@@ -13,7 +13,7 @@ utility commands:
 <br />
 **truffle compile**-> compile all the contracts 
 <br />
-**truffle migrate**v ->
+**truffle migrate**v -> put the compiled smart contract on the blockchain
 <br />
 **testo**
 <br />
