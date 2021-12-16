@@ -7,6 +7,8 @@ Change hardfork on petersburg
  <br />
 
 1. **npm install**     -> to install all the dependencies necessary  <br />
+truffle compile<br />
+truffle migrate
 <br /><br /><br /><br /><br /><br />
 File explaining:<br /> 
 utility commands:
