@@ -19,30 +19,13 @@ const Home = () => {
 			<StyledTitle>Welcome to the USI Loyalty DAPP</StyledTitle>
 			<StyledText>Select one of the following options:</StyledText>
 			<StyledMenuContainer>
-				{menu.map(
-					({
-						name,
-						path,
-						color = 'rgb(0, 0, 0)',
-						hoverColor = 'rgb(255, 255, 255)',
-					}) => (
-						<StyledLink
-							to={path}
-							color={color}
-							hovercolor={hoverColor}
-							key={path}
-						>
-							{name}
-						</StyledLink>
-					),
-				)}
+				{menu.map(({ name, path, color = 'rgb(0, 0, 0)' }) => (
+					<StyledLink to={path} color={color} key={path}>
+						{name}
+					</StyledLink>
+				))}
 			</StyledMenuContainer>
-			<StyledTrade
-				to="trade"
-				color="rgb(0, 0, 0)"
-				hovercolor="rgb(255, 255, 255)"
-				key="trade"
-			>
+			<StyledTrade to="trade" color="rgb(0, 0, 0)" key="trade">
 				Trade
 			</StyledTrade>
 		</StyledHome>
@@ -80,42 +63,30 @@ const StyledMenuContainer = styled.div`
 
 const StyledLink = styled(Link)`
 	display: grid;
-	padding: 10px 35px;
+	padding: 0px 35px;
 	width: min-content;
 	height: min-content;
-	border-radius: 50px;
-	background-color: ${({ color }) => color};
-	color: white;
-	border: 2px solid black;
+	border-top: 2px solid ${({ color }) => color};
+	border-bottom: 2px solid ${({ color }) => color};
+	color: ${({ color }) => color};
 	text-decoration: none;
 	transition: all 0.25s;
 	font-size: 1.4em;
-	&:hover {
-		background-color: ${({ hovercolor }) => hovercolor};
-		color: black;
-		text-decoration: none;
-	}
 `;
 
 const StyledTrade = styled(Link)`
 	display: grid;
 	margin-top: 15px;
-	padding: 10px 20px;
+	padding: 0px 20px;
 	width: 320px;
 	height: min-content;
-	border-radius: 50px;
-	background-color: ${({ color }) => color};
-	color: white;
-	border: 2px solid black;
+	border-top: 2px solid ${({ color }) => color};
+	border-bottom: 2px solid ${({ color }) => color};
+	color: ${({ color }) => color};
 	text-decoration: none;
 	text-align: center;
 	transition: all 0.25s;
 	font-size: 1.4em;
-	&:hover {
-		background-color: ${({ hovercolor }) => hovercolor};
-		color: black;
-		text-decoration: none;
-	}
 `;
 
 export default Home;
