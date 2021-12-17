@@ -1,4 +1,3 @@
-
 const DaiToken = artifacts.require('DaiToken')
 const UsiToken = artifacts.require('UsiToken')
 const TokenFarm = artifacts.require('TokenFarm')
@@ -84,6 +83,18 @@ contract('TokenFarm', ([owner, investor]) => {
 
         //assicurarsi che solo il proprietario chiama issue
         await tokenFarm.issueTokens({from: investor}).should.be.rejected;
+
+        //controlla dopo unstaking
+        await tokenFarm.unstakeTokens({from: investor})
+
+        result = await daiToken.balanceOf(investor)
+        assert.equal(result.toString(), tokens('100'), 'investor took back the dai in his wallet')
+
+        result = await daiToken.balanceOf(tokenFarm.address)
+        assert.equal(result.toString(), tokens('0'), 'token farm should not have daitoken after unstak')
+
+        result = await tokenFarm.stakingBalance(investor)
+        assert.equal(result.toString(), tokens('0'), 'investor staking balance correct after staking')
 
         })
     })

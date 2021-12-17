@@ -55,6 +55,17 @@ contract TokenFarm{
 
     //unstaking token, toglierlo dallo staking un prelevo di denaro tipo
 
+    function unstakeTokens() public{
+        uint balance = stakingBalance[msg.sender];
+        require (balance >0, "staking balance cannot be 0");
+
+        //transfer token from the app to the user
+        daiToken.transfer(msg.sender, balance);
+
+        stakingBalance[msg.sender] =0;
+
+        isStaking[msg.sender] = false;
+    }
 
     //issuing token guadagnere interesssi.
     function issueTokens() public{
