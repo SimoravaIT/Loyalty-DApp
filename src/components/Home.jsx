@@ -28,6 +28,10 @@ const Home = () => {
 			<StyledTrade to="trade" color="rgb(0, 0, 0)" key="trade">
 				Trade
 			</StyledTrade>
+			<StyledText>
+				You current <b>USI Token</b> balance is:
+			</StyledText>
+			<StyledText>XXX</StyledText>
 		</StyledHome>
 	);
 };
@@ -82,6 +86,7 @@ const StyledLink = styled(Link)`
 const StyledTrade = styled(Link)`
 	display: grid;
 	margin-top: 15px;
+	margin-bottom: 10vh;
 	padding: 0px 35px;
 	width: min-content;
 	height: min-content;
