@@ -13,9 +13,8 @@ const menu = [
 	},
 ];
 
-const Home = () => {
+const Home = ({ account }) => {
 	return (
-		
 		<StyledHome>
 			<StyledTitle>Welcome to the USI Loyalty DAPP</StyledTitle>
 			<StyledText>Select one of the following options:</StyledText>
@@ -29,10 +28,12 @@ const Home = () => {
 			<StyledTrade to="trade" color="rgb(0, 0, 0)" key="trade">
 				Trade
 			</StyledTrade>
+			<StyledText>Your current address is:</StyledText>
+			<StyledValue>{account}</StyledValue>
 			<StyledText>
-				You current <b>USI Token</b> balance is:
+				Your current <b>USI Token</b> balance is:
 			</StyledText>
-			<StyledText>XXX</StyledText>
+			<StyledValue>XXX</StyledValue>
 		</StyledHome>
 	);
 };
@@ -55,6 +56,11 @@ const StyledTitle = styled.div`
 
 const StyledText = styled.div`
 	font-size: 22px;
+`;
+
+const StyledValue = styled.div`
+	font-size: 25px;
+	padding-bottom: 20px;
 `;
 
 const StyledMenuContainer = styled.div`
