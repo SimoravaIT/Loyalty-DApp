@@ -72,6 +72,11 @@ const StyledLink = styled(Link)`
 	text-decoration: none;
 	transition: all 0.25s;
 	font-size: 1.4em;
+	&:hover {
+		font-weight: bold;
+		color: black;
+		text-decoration: none;
+	}
 `;
 
 const StyledTrade = styled(Link)`
@@ -87,6 +92,11 @@ const StyledTrade = styled(Link)`
 	text-align: center;
 	transition: all 0.25s;
 	font-size: 1.4em;
+	&:hover {
+		font-weight: bold;
+		color: black;
+		text-decoration: none;
+	}
 `;
 
 export default Home;
