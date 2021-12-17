@@ -1,6 +1,6 @@
-# Loyalty DApp for USI :exclamation: <br />
+# Loyalty DApp for USI <br />
 
-This is the DAPP for a universitary Project at USI <br />
+This is the DAPP for a universitary Project at USI. <br />
 Developed by Simone Rava and Aron Dalle Pezze. :computer: <br />
 
 **How to run:**
