@@ -1,3 +1,4 @@
+const {assert} = require('chai')
 const DaiToken = artifacts.require('DaiToken')
 const UsiToken = artifacts.require('UsiToken')
 const TokenFarm = artifacts.require('TokenFarm')
@@ -95,6 +96,9 @@ contract('TokenFarm', ([owner, investor]) => {
 
         result = await tokenFarm.stakingBalance(investor)
         assert.equal(result.toString(), tokens('0'), 'investor staking balance correct after staking')
+
+        result = await tokenFarm.isStaking(investor)
+        assert.equal(result.toString(), 'false', 'investor staking status not correct')
 
         })
     })
