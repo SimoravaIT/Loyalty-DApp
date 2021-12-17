@@ -8,6 +8,7 @@ Developed by Simone Rava and Aron Dalle Pezze. :computer: <br />
 1. **npm install** -> to install all the dependencies necessary <br />
 2. **truffle compile** -> to compile all the contracts <br />
 3. **truffle migrate** -> to put the compiled smart contract on the blockchain <br />
+4. **npm run start** -> to start the frontend on local port 3000 <br />
    <br />
 
 **Useful commands:** <br />
