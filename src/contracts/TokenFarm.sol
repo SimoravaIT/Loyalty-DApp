@@ -14,6 +14,7 @@ contract TokenFarm{
     
     DaiToken public daiToken; //due variabili che assegnamo gli indirizzi tramite costruttore, servono per tutto lo smart contract
     UsiToken public usiToken;
+    address public owner;
 
     address[] public stakers;  //keep track of all the address that have ever staked
     mapping(address => uint) public stakingBalance; //quanto balance ha in staking ognuno 
@@ -25,6 +26,8 @@ contract TokenFarm{
     constructor(UsiToken _usiToken, DaiToken _daiToken) public {
         daiToken = _daiToken;
         usiToken = _usiToken;
+        //dichiaro owner, colui che deploy lo smart contract, solo lui puo dare i rewards.
+        owner = msg.sender;
     }
 
 
@@ -32,6 +35,9 @@ contract TokenFarm{
 
     // staking function, qua l investitore mette i dai nell app che gli daranno rewards in usitoken tipo un deposito di denaro
     function stakeTokens(uint _amount) public{
+        //se falso require stoppa tutto e da exception, altrimenti va avanti
+        require(_amount>0,"amount cannot be 0");
+
         //transfert dai from the user to this contract for staking
         daiToken.transferFrom(msg.sender, address(this), _amount);
 
@@ -51,6 +57,20 @@ contract TokenFarm{
 
 
     //issuing token guadagnere interesssi.
+    function issueToken() public{
 
+        //nn deve poterla eseguire chiunque ma solo il proprietario del contratto quindi metto req
+        //il proprietario deve chiamarla ogni tot, ogni gorno sett blocco o ecc
+        require(msg.sender == owner, "caller must be the owner");
+
+        //rewards in base a quanto depositano, se depositano mille gli diamo mille
+        for (uint i=0; i < stakers.length; i++){
+            address recipient = stakers[i];
+            uint balance = stakingBalance[recipient];
+            if(balance>0){
+                usiToken.transfer(recipient,balance);
+            }
+        }
+    }
 }
 
