@@ -22,15 +22,13 @@ class App extends Component {
 			<StyledFullPage>
 				<Router basename={'/'}>
 					<Navbar account={this.state.account} />
-					<StyledInnerPage>
-						<Routes>
-							<Route path="/staking" element={<Staking />} />
+					<Routes>
+						<Route path="/staking" element={<Staking />} />
 
-							<Route exact path="/" element={<Home />} />
+						<Route exact path="/" element={<Home />} />
 
-							<Route path="*" element={<Navigate to="/" />} />
-						</Routes>
-					</StyledInnerPage>
+						<Route path="*" element={<Navigate to="/" />} />
+					</Routes>
 				</Router>
 			</StyledFullPage>
 		);
@@ -40,13 +38,7 @@ class App extends Component {
 const StyledFullPage = styled.div`
 	height: 100vh;
 	min-height: 700px;
-	font-size: 14px;
-`;
-
-const StyledInnerPage = styled.div`
-	height: 95vh;
-	padding-left: 30px;
-	padding-top: 20px;
+	color: black;
 `;
 
 export default App;
