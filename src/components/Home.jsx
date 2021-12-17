@@ -54,7 +54,7 @@ const StyledText = styled.div`
 
 const StyledMenuContainer = styled.div`
 	padding-top: 30px;
-	width: 350px;
+	width: 325px;
 	display: grid;
 	grid-template-columns: 1fr 1fr;
 	justify-items: center;
@@ -82,8 +82,8 @@ const StyledLink = styled(Link)`
 const StyledTrade = styled(Link)`
 	display: grid;
 	margin-top: 15px;
-	padding: 0px 20px;
-	width: 320px;
+	padding: 0px 35px;
+	width: min-content;
 	height: min-content;
 	border-top: 2px solid ${({ color }) => color};
 	border-bottom: 2px solid ${({ color }) => color};
