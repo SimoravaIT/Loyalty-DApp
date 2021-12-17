@@ -956,7 +956,7 @@
                             "name": "this",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 616,
+                            "referencedDeclaration": 614,
                             "src": "1706:4:2",
                             "typeDescriptions": {
                               "typeIdentifier": "t_contract$_TokenFarm_$400",
@@ -3042,7 +3042,7 @@
                             "name": "this",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 616,
+                            "referencedDeclaration": 614,
                             "src": "1706:4:2",
                             "typeDescriptions": {
                               "typeIdentifier": "t_contract$_TokenFarm_$400",
@@ -4379,7 +4379,7 @@
     }
   },
   "schemaVersion": "3.2.3",
-  "updatedAt": "2021-12-17T10:33:46.076Z",
+  "updatedAt": "2021-12-17T10:40:28.878Z",
   "devdoc": {
     "methods": {}
   },

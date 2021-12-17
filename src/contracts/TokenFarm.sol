@@ -57,7 +57,7 @@ contract TokenFarm{
 
 
     //issuing token guadagnere interesssi.
-    function issueToken() public{
+    function issueTokens() public{
 
         //nn deve poterla eseguire chiunque ma solo il proprietario del contratto quindi metto req
         //il proprietario deve chiamarla ogni tot, ogni gorno sett blocco o ecc

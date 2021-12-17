@@ -1,3 +1,4 @@
+
 const DaiToken = artifacts.require('DaiToken')
 const UsiToken = artifacts.require('UsiToken')
 const TokenFarm = artifacts.require('TokenFarm')
@@ -75,6 +76,19 @@ contract('TokenFarm', ([owner, investor]) => {
         result = await daiToken.balanceOf(tokenFarm.address)
         assert.equal(result.toString(), tokens('100'), 'token farm dai balance correct after staking')
 
+        //controllo rewards
+        await tokenFarm.issueTokens({from : owner}) //owner qua é il rpimo add
+        //controll che balance é giusto (che riceve 100)
+        result = await usiToken.balanceOf(investor)
+        assert.equal(result.toString(), tokens('100'), 'investor usi token wallate balance rewarded correct')
+
+        //assicurarsi che solo il proprietario chiama issue
+        await tokenFarm.issueTokens({from: investor}).should.be.rejected;
+
         })
     })
+
+
+
+    
 }) 
