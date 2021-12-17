@@ -10,6 +10,7 @@ const Header = (account) => {
 			</StyledLeft>
 			<StyledCenter>Loyalty DAPP</StyledCenter>
 			<StyledRight>Distributed Systems, 2021</StyledRight>
+	
 		</StyledHeader>
 	);
 };

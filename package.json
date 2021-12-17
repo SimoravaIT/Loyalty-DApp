@@ -1,6 +1,6 @@
 {
 	"name": "loyalty-dapp",
-	"version": "0.0.1",
+	"version": "0.1.0",
 	"description": "Loyalty distributed application",
 	"author": "Simone and Aron",
 	"dependencies": {

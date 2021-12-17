@@ -15,6 +15,7 @@ const menu = [
 
 const Home = () => {
 	return (
+		
 		<StyledHome>
 			<StyledTitle>Welcome to the USI Loyalty DAPP</StyledTitle>
 			<StyledText>Select one of the following options:</StyledText>
