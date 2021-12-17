@@ -19,6 +19,6 @@ Developed by Simone Rava and Aron Dalle Pezze. :computer: <br />
 
 **Useful files:** <br />
 **package.json** -> keep all the dependencies needed for the dapp <br />
-**truffle-config.js** -> how we connect our truffle to the blockchain, connect to ganache that runs in the local host 127.0.0.1 and port 7545(LOCAL) <br />
-**USIToken.sol** -> represent the token that we rewards to the user that farm them staking DAI token
+**truffle-config.js** -> how we connect our truffle to the blockchain, connect to ganache that runs in the local host 127.0.0.1 and local port 7545 <br />
+**USIToken.sol** -> represent the token that we rewards to the user that farm them staking DAI token<br />
 **TokenFarm.sol** -> smart contract for the farming action
