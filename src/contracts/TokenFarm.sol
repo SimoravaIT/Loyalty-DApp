@@ -15,10 +15,10 @@ contract TokenFarm{
     DaiToken public daiToken; //due variabili che assegnamo gli indirizzi tramite costruttore, servono per tutto lo smart contract
     UsiToken public usiToken;
 
-    address[] public stakers;
-    mapping(address => uint) public stakingBalance;
-    mapping(address => bool) public hasStaked;
-    mapping(address => bool) public isStaking;
+    address[] public stakers;  //keep track of all the address that have ever staked
+    mapping(address => uint) public stakingBalance; //quanto balance ha in staking ognuno 
+    mapping(address => bool) public hasStaked;  //
+    mapping(address => bool) public isStaking; //keep 
 
     //this function is going to be executed only once when it depoloy on the network
     //ci servono gli address dei due token usi e dai li diamo in parametro
@@ -37,6 +37,7 @@ contract TokenFarm{
 
         stakingBalance[msg.sender] = stakingBalance[msg.sender] + _amount;
 
+        //se nn ha mai fatto staking aggiungilo all array per nn avere errori di puntatore inesistente
         if(!hasStaked[msg.sender]){
             stakers.push(msg.sender);
         }
