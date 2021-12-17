@@ -19,8 +19,9 @@ Developed by Simone Rava and Aron Dalle Pezze. :computer: <br />
 **truffle console** -> interact with the smart contracts on the blockchain, open a console that is a javascript runtime environment that let you use the blockchain
 <br />
 
-<br /><br />
-File explaining:<br />
+<br />
+**Useful files:**
+<br />
 **package.json** -> keep all the dependencies needed for the dapp
 <br />
 **truffle-config.js** -> how we connect our truffle to the blockchain, connect to ganache that runs in the local host 127.0.0.1 and port 7545(LOCAL)
