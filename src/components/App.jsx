@@ -46,44 +46,38 @@ const App = () => {
 		const web3 = window.web3;
 		//account showed in metamask and in ganahche
 		const accounts = await web3.eth.getAccounts();
-		setAccount(accounts[0]); //accounts 0 or accounts?? -> è un array ma di un solo elemento, quindi accounts[0].
+
+		setAccount(accounts[0]);
+		console.log("account: "+accounts[0])
 		//5777 che é il network id per ganache nel json file
 		const networkId = await web3.eth.net.getId();
-
+		console.log("netID, should be 5777: "+networkId)
 		//prendiamo usiToken values dal json file, dal json deriviamo l address utilizzando network id
-		const usiTokenData = UsiToken.networks[networkId];
+
+		const usiTokenData = UsiToken.networks[networkId]
+		console.log("usitoken, should be 0x901...FA4: "+usiTokenData.address)
 		if (usiTokenData) {
-			//const usiToken = new web3.eth.Contract(UsiToken.abi, usiTokenData.address)
 			//address of usiToken gained from the json file
-			const newUsiToken = new web3.eth.Contract(
-				UsiToken.abi,
-				usiTokenData.address,
-			);
+			const newUsiToken = new web3.eth.Contract(UsiToken.abi,usiTokenData.address);
 			setUsiToken(newUsiToken);
-			// console.log(newUsiToken.methods.balanceOf({ account }).call);
-			// come vedi dal console log qui sopra, fino a questo punto funziona. Non so a te, ma a me si rompe se chiamo "call"
-			//perche qua nn riesco a prendere account e devo prendere 0?
-			// const newUsiTokenBalance = await usiToken.methods
-			// 	.balanceOf(accounts[0])
-			// 	.call();
-			// setUsiTokenBalance(newUsiTokenBalance);
+			console.log("usi token balance ="+await newUsiToken.methods.balanceOf(accounts[0]).call());
+			const newUsiTokenBalance = await newUsiToken.methods.balanceOf(accounts[0]).call();
+			setUsiTokenBalance(newUsiTokenBalance);
+
 		} else {
 			window.alert('UsiToken contract not deployed to detected network');
 		}
 
 		const daiTokenData = DaiToken.networks[networkId];
+		console.log("daiToken: "+daiTokenData.address)
 		if (daiTokenData) {
-			const daiToken = new web3.eth.Contract(
-				DaiToken.abi,
-				daiTokenData.address,
-			);
+			const newDaiToken = new web3.eth.Contract(DaiToken.abi,daiTokenData.address);
 			//address of daiToken gained from the json file
-			setDaiToken(daiToken);
-			//perche qua nn riesco a prendere account ?
-			setDaiTokenBalance(
-				await daiToken.methods.balanceOf(accounts[0]).call(),
-			);
-			console.log(await daiToken.methods.balanceOf(accounts[0]).call());
+			setDaiToken(newDaiToken); 
+			console.log("dai token balance ="+await newDaiToken.methods.balanceOf(accounts[0]).call());
+			const newDaiTokenBalance = await newDaiToken.methods.balanceOf(accounts[0]).call();
+			setDaiTokenBalance(newDaiTokenBalance);
+	
 		} else {
 			window.alert('UsiToken contract not deployed to detected network');
 		}
