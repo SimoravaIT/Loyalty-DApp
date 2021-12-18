@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Web3 from 'web3';
 import UsiToken from '../abis/UsiToken.json';
 import DaiToken from '../abis/DaiToken.json';
+import TokenFarm from '../abis/TokenFarm.json';
 import styled from 'styled-components';
 import {
 	BrowserRouter as Router,
@@ -23,7 +24,7 @@ const App = () => {
 	//balances
 	const [daiTokenBalance, setDaiTokenBalance] = useState(0);
 	const [usiTokenBalance, setUsiTokenBalance] = useState(0);
-	const [tokenFarmBalance, setTokenFarmBalance] = useState(0);
+	const [stakingBalance, setStakingBalance] = useState(0);
 	const [loading, setLoading] = useState(true);
 	useEffect(() => {
 		loadWeb3();
@@ -55,7 +56,7 @@ const App = () => {
 		//prendiamo usiToken values dal json file, dal json deriviamo l address utilizzando network id
 
 		const usiTokenData = UsiToken.networks[networkId]
-		console.log("usitoken, should be 0x901...FA4: "+usiTokenData.address)
+		console.log("usitoken address , should be 0x901...FA4: "+usiTokenData.address)
 		if (usiTokenData) {
 			//address of usiToken gained from the json file
 			const newUsiToken = new web3.eth.Contract(UsiToken.abi,usiTokenData.address);
@@ -69,7 +70,7 @@ const App = () => {
 		}
 
 		const daiTokenData = DaiToken.networks[networkId];
-		console.log("daiToken: "+daiTokenData.address)
+		console.log("daiToken address: "+daiTokenData.address)
 		if (daiTokenData) {
 			const newDaiToken = new web3.eth.Contract(DaiToken.abi,daiTokenData.address);
 			//address of daiToken gained from the json file
@@ -81,6 +82,20 @@ const App = () => {
 		} else {
 			window.alert('UsiToken contract not deployed to detected network');
 		}
+
+		const tokenFarmData = TokenFarm.networks[networkId];
+		console.log("tokenfarm address: "+daiTokenData.address)
+		if (tokenFarmData) {
+			const newTokenFarm = new web3.eth.Contract(TokenFarm.abi,tokenFarmData.address);
+			setTokenFarm(newTokenFarm); 
+			console.log("staking balance ="+await newTokenFarm.methods.stakingBalance(accounts[0]).call());
+			const newStakingBalance = await newTokenFarm.methods.stakingBalance(accounts[0]).call();
+			setStakingBalance(newStakingBalance);
+	
+		} else {
+			window.alert('UsiToken contract not deployed to detected network');
+		}
+		setLoading(false);
 	};
 
 	return (
@@ -98,6 +113,7 @@ const App = () => {
 								account={account}
 								usiTokenBalance={usiTokenBalance}
 								daiTokenBalance={daiTokenBalance}
+								stakingBalance={stakingBalance}
 							/>
 						}
 					/>

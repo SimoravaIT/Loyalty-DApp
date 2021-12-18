@@ -13,7 +13,7 @@ const menu = [
 	},
 ];
 
-const Home = ({ account,usiTokenBalance,daiTokenBalance }) => {
+const Home = ({ account,usiTokenBalance,daiTokenBalance,stakingBalance }) => {
 	return (
 		<StyledHome>
 			<StyledTitle>Welcome to the USI Loyalty DAPP</StyledTitle>
@@ -38,6 +38,10 @@ const Home = ({ account,usiTokenBalance,daiTokenBalance }) => {
 				Your current <b>DAI Token</b> balance is:
 			</StyledText>
 			<StyledValue>{daiTokenBalance}</StyledValue>
+			<StyledText>
+				Your current <b>Staking balance</b> is:
+			</StyledText>
+			<StyledValue>{stakingBalance}</StyledValue>
 		</StyledHome>
 	);
 };
