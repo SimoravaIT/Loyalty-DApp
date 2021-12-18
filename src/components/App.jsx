@@ -60,16 +60,13 @@ const App = () => {
 				usiTokenData.address,
 			);
 			setUsiToken(newUsiToken);
-			console.log(newUsiToken.methods.balanceOf({ account }).call);
-			const tokenFunction = newUsiToken.methods.balanceOf({ account })
-				.call;
-			console.log(tokenFunction(0));
+			// console.log(newUsiToken.methods.balanceOf({ account }).call);
 			// come vedi dal console log qui sopra, fino a questo punto funziona. Non so a te, ma a me si rompe se chiamo "call"
 			//perche qua nn riesco a prendere account e devo prendere 0?
-			const newUsiTokenBalance = await usiToken.methods
-				.balanceOf({ account })
-				.call();
-			setUsiTokenBalance(newUsiTokenBalance);
+			// const newUsiTokenBalance = await usiToken.methods
+			// 	.balanceOf(accounts[0])
+			// 	.call();
+			// setUsiTokenBalance(newUsiTokenBalance);
 		} else {
 			window.alert('UsiToken contract not deployed to detected network');
 		}
@@ -81,12 +78,12 @@ const App = () => {
 				daiTokenData.address,
 			);
 			//address of daiToken gained from the json file
-			setDaiToken(daiToken); // non mettere il "new" ecc. dentro qui, fallo in una variabile esterna, che se no a React non piace
+			setDaiToken(daiToken);
 			//perche qua nn riesco a prendere account ?
 			setDaiTokenBalance(
-				await daiToken.methods.balanceOf(account).call(),
+				await daiToken.methods.balanceOf(accounts[0]).call(),
 			);
-			console.log(await daiToken.methods.balanceOf(account).call());
+			console.log(await daiToken.methods.balanceOf(accounts[0]).call());
 		} else {
 			window.alert('UsiToken contract not deployed to detected network');
 		}
