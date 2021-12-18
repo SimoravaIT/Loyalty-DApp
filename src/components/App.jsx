@@ -27,7 +27,7 @@ const App = () => {
 	const [loading, setLoading] = useState(true);
 	useEffect(() => {
 		loadWeb3();
-	});
+	}, []);
 
 	const loadWeb3 = async () => {
 		if (window.ethereum) {
@@ -46,37 +46,50 @@ const App = () => {
 		const web3 = window.web3;
 		//account showed in metamask and in ganahche
 		const accounts = await web3.eth.getAccounts();
-		setAccount(accounts[0])//accounts 0 or accounts??
-		//console.log(account)
+		setAccount(accounts[0]); //accounts 0 or accounts?? -> è un array ma di un solo elemento, quindi accounts[0].
 		//5777 che é il network id per ganache nel json file
-		const networkId = await web3.eth.net.getId()
+		const networkId = await web3.eth.net.getId();
 
 		//prendiamo usiToken values dal json file, dal json deriviamo l address utilizzando network id
-		const usiTokenData = UsiToken.networks[networkId]
-		if(usiTokenData){
+		const usiTokenData = UsiToken.networks[networkId];
+		if (usiTokenData) {
 			//const usiToken = new web3.eth.Contract(UsiToken.abi, usiTokenData.address)
 			//address of usiToken gained from the json file
-			setUsiToken(new web3.eth.Contract(UsiToken.abi, usiTokenData.address))
+			const newUsiToken = new web3.eth.Contract(
+				UsiToken.abi,
+				usiTokenData.address,
+			);
+			setUsiToken(newUsiToken);
+			console.log(newUsiToken.methods.balanceOf({ account }).call);
+			const tokenFunction = newUsiToken.methods.balanceOf({ account })
+				.call;
+			console.log(tokenFunction(0));
+			// come vedi dal console log qui sopra, fino a questo punto funziona. Non so a te, ma a me si rompe se chiamo "call"
 			//perche qua nn riesco a prendere account e devo prendere 0?
-			setUsiTokenBalance(await usiToken.methods.balanceOf({account}).call())
-		}else{
-			window.alert('UsiToken contract not deployed to detected network')
+			const newUsiTokenBalance = await usiToken.methods
+				.balanceOf({ account })
+				.call();
+			setUsiTokenBalance(newUsiTokenBalance);
+		} else {
+			window.alert('UsiToken contract not deployed to detected network');
 		}
-		
 
-		const daiTokenData = DaiToken.networks[networkId]
-		if(daiTokenData){
-			//const daiToken = new web3.eth.Contract(DaiToken.abi, daiTokenData.address)
+		const daiTokenData = DaiToken.networks[networkId];
+		if (daiTokenData) {
+			const daiToken = new web3.eth.Contract(
+				DaiToken.abi,
+				daiTokenData.address,
+			);
 			//address of daiToken gained from the json file
-			setDaiToken( daiToken = new web3.eth.Contract(DaiToken.abi, daiTokenData.address))
+			setDaiToken(daiToken); // non mettere il "new" ecc. dentro qui, fallo in una variabile esterna, che se no a React non piace
 			//perche qua nn riesco a prendere account ?
-			setDaiTokenBalance(await daiToken.methods.balanceOf(account).call())
-			console.log(await daiToken.methods.balanceOf(account).call())
-
-		}else{
-			window.alert('UsiToken contract not deployed to detected network')
+			setDaiTokenBalance(
+				await daiToken.methods.balanceOf(account).call(),
+			);
+			console.log(await daiToken.methods.balanceOf(account).call());
+		} else {
+			window.alert('UsiToken contract not deployed to detected network');
 		}
-		
 	};
 
 	return (
@@ -89,7 +102,13 @@ const App = () => {
 					<Route
 						exact
 						path="/"
-						element={<Home account={account} usiTokenBalance={usiTokenBalance} daiTokenBalance = {daiTokenBalance} />}
+						element={
+							<Home
+								account={account}
+								usiTokenBalance={usiTokenBalance}
+								daiTokenBalance={daiTokenBalance}
+							/>
+						}
 					/>
 
 					<Route path="*" element={<Navigate to="/" />} />
