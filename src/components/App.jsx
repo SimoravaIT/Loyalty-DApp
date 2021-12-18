@@ -98,7 +98,7 @@ const App = () => {
 		setLoading(false);
 	};
 
-	return (
+	return 
 		<StyledFullPage>
 			<Router basename={'/'}>
 				<Navbar />
