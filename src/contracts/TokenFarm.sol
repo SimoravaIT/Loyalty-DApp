@@ -68,6 +68,19 @@ contract TokenFarm{
         isStaking[msg.sender] = false;
     }
 
+    function unstakeNTokens(uint _amount) public{
+        uint balance = stakingBalance[msg.sender];
+        require (balance > _amount, "staking balance greater than amount");
+
+        //transfer token from the app to the user
+        daiToken.transfer(msg.sender, _amount);
+
+        stakingBalance[msg.sender] = stakingBalance[msg.sender] - _amount;
+        if(stakingBalance[msg.sender]==0){
+             isStaking[msg.sender] = false;
+        }
+    }
+
     //issuing token guadagnere interesssi.
     function issueTokens() public{
 

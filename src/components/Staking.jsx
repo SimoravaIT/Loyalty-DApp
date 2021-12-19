@@ -60,7 +60,7 @@ const Staking = ({
 		const unstakingValue = data.unstakingValue;
 
 		if (unstakingValue > 0) {
-			tokenFarm.methods.unstakeTokens().send({ from: account });
+			tokenFarm.methods.unstakeNTokens(window.web3.utils.toWei(unstakingValue, 'Ether')).send({ from: account });
 			const newStaking=await tokenFarm.methods.stakingBalance(account).call();
 				setStakingBalance(newStaking);
 		} else {
