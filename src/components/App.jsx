@@ -28,7 +28,8 @@ const App = () => {
 	const [daiTokenBalance, setDaiTokenBalance] = useState(0);
 	const [usiTokenBalance, setUsiTokenBalance] = useState(0);
 	const [stakingBalance, setStakingBalance] = useState(0);
-	const [loading, setLoading] = useState(false);
+	const [loading, setLoading] = useState(true);
+	const [totalGained, setTotalGained] = useState(0);
 
 	useEffect(() => {
 		loadWeb3();
@@ -104,7 +105,7 @@ const App = () => {
 		}
 
 		const tokenFarmData = TokenFarm.networks[networkId];
-		console.log('tokenfarm address: ' + daiTokenData.address);
+		console.log('tokenfarm address: ' + tokenFarmData.address);
 		if (tokenFarmData) {
 			const newTokenFarm = new web3.eth.Contract(
 				TokenFarm.abi,
@@ -121,6 +122,10 @@ const App = () => {
 				.stakingBalance(accounts[0])
 				.call();
 			setStakingBalance(newStakingBalance);
+			const newTotalGained = await newTokenFarm.methods
+				.totalObtained(accounts[0])
+				.call();
+			setTotalGained(newTotalGained);
 		} else {
 			window.alert('UsiToken contract not deployed to detected network');
 		}
@@ -150,6 +155,9 @@ const App = () => {
 									usiTokenBalance={usiTokenBalance}
 									daiTokenBalance={daiTokenBalance}
 									stakingBalance={stakingBalance}
+									daiToken={daiToken}
+									tokenFarm={tokenFarm}
+									totalGained={totalGained}
 								/>
 							}
 						/>
