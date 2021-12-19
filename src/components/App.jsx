@@ -10,7 +10,9 @@ import {
 	Route,
 	Navigate,
 } from 'react-router-dom';
-import Navbar from './Header';
+import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
+import Loader from 'react-loader-spinner';
+import Header from './Header';
 import Home from './Home';
 import Staking from './Staking';
 
@@ -25,7 +27,7 @@ const App = () => {
 	const [daiTokenBalance, setDaiTokenBalance] = useState(0);
 	const [usiTokenBalance, setUsiTokenBalance] = useState(0);
 	const [stakingBalance, setStakingBalance] = useState(0);
-	const [loading, setLoading] = useState(true);
+	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
 		loadWeb3();
@@ -127,9 +129,16 @@ const App = () => {
 	return (
 		<StyledFullPage>
 			<Router basename={'/'}>
-				<Navbar />
+				<Header />
 				{loading ? (
-					<StyledLoading>Loading</StyledLoading>
+					<StyledLoading>
+						<Loader
+							type="Bars"
+							color="rgba(0, 0, 0, 0.75)"
+							height={100}
+							width={100}
+						/>
+					</StyledLoading>
 				) : (
 					<Routes>
 						<Route path="/staking" element={<Staking />} />
@@ -159,7 +168,6 @@ const App = () => {
 							}
 						/>
 
-
 						<Route path="*" element={<Navigate to="/" />} />
 					</Routes>
 				)}
@@ -175,8 +183,10 @@ const StyledFullPage = styled.div`
 `;
 
 const StyledLoading = styled.div`
-	color: black
-	font-size: 40;
+	height: 94vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 `;
 
 export default App;
