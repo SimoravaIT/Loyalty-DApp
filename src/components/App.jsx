@@ -27,7 +27,7 @@ const App = () => {
 	const [daiTokenBalance, setDaiTokenBalance] = useState(0);
 	const [usiTokenBalance, setUsiTokenBalance] = useState(0);
 	const [stakingBalance, setStakingBalance] = useState(0);
-	const [loading, setLoading] = useState(false);
+	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
 		loadWeb3();
