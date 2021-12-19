@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
 
-const Staking = ({
+const Trade = ({
 	account,
 	usiTokenBalance,
 	daiTokenBalance,
@@ -222,4 +222,4 @@ const StyledSubmit = styled.input`
 	}
 `;
 
-export default Staking;
+export default Trade;

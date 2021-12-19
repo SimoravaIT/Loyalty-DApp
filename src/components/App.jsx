@@ -15,6 +15,7 @@ import Loader from 'react-loader-spinner';
 import Header from './Header';
 import Home from './Home';
 import Staking from './Staking';
+import Trade from './Trade';
 
 const App = () => {
 	//all value needed from the blockchain:
@@ -141,13 +142,10 @@ const App = () => {
 					</StyledLoading>
 				) : (
 					<Routes>
-						<Route path="/staking" element={<Staking />} />
-
 						<Route
-							exact
-							path="/"
+							path="/staking"
 							element={
-								<Home
+								<Staking
 									account={account}
 									usiTokenBalance={usiTokenBalance}
 									daiTokenBalance={daiTokenBalance}
@@ -156,10 +154,15 @@ const App = () => {
 							}
 						/>
 						<Route
+							path="/trade"
+							element={<Trade account={account} />}
+						/>
+
+						<Route
 							exact
 							path="/"
 							element={
-								<Staking
+								<Home
 									account={account}
 									usiTokenBalance={usiTokenBalance}
 									daiTokenBalance={daiTokenBalance}
