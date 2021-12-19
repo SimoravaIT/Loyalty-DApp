@@ -20,6 +20,7 @@ contract TokenFarm{
     mapping(address => uint) public stakingBalance; //quanto balance ha in staking ognuno 
     mapping(address => bool) public hasStaked;  //
     mapping(address => bool) public isStaking; //keep 
+    mapping(address => uint) public totalObtained;
 
     //this function is going to be executed only once when it depoloy on the network
     //ci servono gli address dei due token usi e dai li diamo in parametro
@@ -79,7 +80,8 @@ contract TokenFarm{
             address recipient = stakers[i];
             uint balance = stakingBalance[recipient];
             if(balance>0){
-                usiToken.transfer(recipient,balance);
+                usiToken.transfer(recipient,(balance/2));
+                totalObtained[recipient]=totalObtained[recipient]+(balance/2);
             }
         }
     }
