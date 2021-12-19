@@ -16,6 +16,7 @@ import Header from './Header';
 import Home from './Home';
 import Staking from './Staking';
 import Trade from './Trade';
+import Survey from './Survey';
 
 const App = () => {
 	//all value needed from the blockchain:
@@ -165,6 +166,15 @@ const App = () => {
 							path="/trade"
 							element={
 								<Trade
+									account={account}
+									usiTokenBalance={usiTokenBalance}
+								/>
+							}
+						/>
+						<Route
+							path="/survey"
+							element={
+								<Survey
 									account={account}
 									usiTokenBalance={usiTokenBalance}
 								/>
