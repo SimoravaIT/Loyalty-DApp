@@ -9,6 +9,7 @@ const Staking = ({
 	stakingBalance,
 	daiToken,
 	tokenFarm,
+	totalGained
 }) => {
 	const [currentIsStake, setCurrentIsStake] = useState(true);
 	const [switchHover, setSwitchHover] = useState(false);
@@ -67,7 +68,7 @@ const Staking = ({
 						</b>
 					</StyledStakingBalance>
 					<StyledRewardBalance>
-						Reward Balance: <b>(0) USIToken</b>
+						Reward Balance: <b>{totalGained} USIToken</b>
 					</StyledRewardBalance>
 				</StyledBalances>
 				<StyledSwitch

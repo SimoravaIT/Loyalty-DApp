@@ -29,6 +29,7 @@ const App = () => {
 	const [usiTokenBalance, setUsiTokenBalance] = useState(0);
 	const [stakingBalance, setStakingBalance] = useState(0);
 	const [loading, setLoading] = useState(true);
+	const [totalGained, setTotalGained]= useState(0);
 
 	useEffect(() => {
 		loadWeb3();
@@ -121,6 +122,9 @@ const App = () => {
 				.stakingBalance(accounts[0])
 				.call();
 			setStakingBalance(newStakingBalance);
+
+			const newTotalGained = await newTokenFarm.methods.totalObtained(accounts[0]).call();
+			setTotalGained(newTotalGained);
 		} else {
 			window.alert('UsiToken contract not deployed to detected network');
 		}
@@ -152,6 +156,7 @@ const App = () => {
 									stakingBalance={stakingBalance}
 									daiToken={daiToken}
 									tokenFarm = {tokenFarm}
+									totalGained = {totalGained}
 								/>
 							}
 						/>
