@@ -7,10 +7,13 @@ const Staking = ({
 	usiTokenBalance,
 	daiTokenBalance,
 	stakingBalance,
+	daiToken,
+	tokenFarm,
 }) => {
 	const [currentIsStake, setCurrentIsStake] = useState(true);
 	const [switchHover, setSwitchHover] = useState(false);
 	const { register, handleSubmit } = useForm();
+
 
 	const onClickSwitch = () => {
 		setCurrentIsStake(!currentIsStake);
@@ -24,14 +27,31 @@ const Staking = ({
 		setSwitchHover(false);
 	};
 
-	const onSubmitStake = (data) => {
+	const onSubmitStake =  (data) => {
+		//staking data amount 
 		const stakingValue = data.stakingValue;
-		console.log(stakingValue);
+		
+		if (stakingValue>0){
+			//console.log(daiToken.methods.approve(tokenFarm._address,stakingValue).send({from : account}))
+			console.log("add dai -"+daiToken._address);
+			console.log("add tokenf -"+tokenFarm._address);
+			console.log("account - "+account)
+			daiToken.methods.approve(tokenFarm._address,window.web3.utils.toWei(stakingValue, 'Ether').toString()).send({from : account})
+			tokenFarm.methods.stakeTokens(window.web3.utils.toWei(stakingValue, 'Ether').toString()).send({from : account})	
+	}else{
+		//avvisa no valore inserito
+	}
 	};
 
 	const onSubmitUnstake = (data) => {
 		const unstakingValue = data.unstakingValue;
-		console.log(unstakingValue);
+		
+		if (unstakingValue>0){
+			tokenFarm.methods.unstakeTokens().send({from : account})	
+		}else{
+			//avvisa no valore inserito
+		}
+
 	};
 
 	return (

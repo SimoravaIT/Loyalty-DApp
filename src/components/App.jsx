@@ -104,7 +104,7 @@ const App = () => {
 		}
 
 		const tokenFarmData = TokenFarm.networks[networkId];
-		console.log('tokenfarm address: ' + daiTokenData.address);
+		console.log('tokenfarm address: ' + tokenFarmData.address);
 		if (tokenFarmData) {
 			const newTokenFarm = new web3.eth.Contract(
 				TokenFarm.abi,
@@ -150,6 +150,8 @@ const App = () => {
 									usiTokenBalance={usiTokenBalance}
 									daiTokenBalance={daiTokenBalance}
 									stakingBalance={stakingBalance}
+									daiToken={daiToken}
+									tokenFarm = {tokenFarm}
 								/>
 							}
 						/>
