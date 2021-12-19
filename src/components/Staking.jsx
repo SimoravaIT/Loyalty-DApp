@@ -3,8 +3,8 @@ import styled from 'styled-components';
 
 const Staking = ({ account,usiTokenBalance,daiTokenBalance,stakingBalance }) => {
 	return( 
-		//	<td>{window.web3.utils.fromWei(stakingBalance, 'Ether')} Dai</td>
-		//<td>{window.web3.utils.fromWei(usiTokenBalance, 'Ether')} USITK</td>
+	//<td>{window.web3.utils.fromWei(stakingBalance, 'Ether')} Dai</td>
+	//<td>{window.web3.utils.fromWei(usiTokenBalance, 'Ether')} USITK</td>
 	//<StyledStaking>Staking time</StyledStaking>
 		<table className = "table table-borderless text-muted text center">
 			<thread>
@@ -15,8 +15,7 @@ const Staking = ({ account,usiTokenBalance,daiTokenBalance,stakingBalance }) => 
 			</thread>
 			<tbody>
 				<tr>
-				
-					<td>{stakingBalance} Dai</td>
+					<td>{window.web3.utils.fromWei(stakingBalance, 'Ether')} Dai</td>
 					<td>{usiTokenBalance} USITK</td>
 				</tr>
 			</tbody>

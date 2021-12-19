@@ -13,7 +13,7 @@ const menu = [
 	},
 ];
 
-const Home = ({ account,usiTokenBalance,daiTokenBalance,stakingBalance }) => {
+const Home = ({ account,usiTokenBalance,daiTokenBalance,stakingBalance })=> {
 	return (
 		<StyledHome>
 			<StyledTitle>Welcome to the USI Loyalty DAPP</StyledTitle>
@@ -33,15 +33,15 @@ const Home = ({ account,usiTokenBalance,daiTokenBalance,stakingBalance }) => {
 			<StyledText>
 				Your current <b>USI Token</b> balance is:
 			</StyledText>
-			<StyledValue>{usiTokenBalance}</StyledValue>
+			<StyledValue>{window.web3.utils.fromWei(usiTokenBalance, 'Ether')}</StyledValue>
 			<StyledText>
 				Your current <b>DAI Token</b> balance is:
 			</StyledText>
-			<StyledValue>{daiTokenBalance}</StyledValue>
+			<StyledValue>{window.web3.utils.fromWei(daiTokenBalance, 'Ether')}</StyledValue>
 			<StyledText>
 				Your current <b>Staking balance</b> is:
 			</StyledText>
-			<StyledValue>{stakingBalance}</StyledValue>
+			<StyledValue>{window.web3.utils.fromWei(stakingBalance, 'Ether')}</StyledValue>
 		</StyledHome>
 	);
 };
