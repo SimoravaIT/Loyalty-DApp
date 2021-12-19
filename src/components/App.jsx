@@ -155,7 +155,12 @@ const App = () => {
 						/>
 						<Route
 							path="/trade"
-							element={<Trade account={account} />}
+							element={
+								<Trade
+									account={account}
+									usiTokenBalance={usiTokenBalance}
+								/>
+							}
 						/>
 
 						<Route
@@ -186,7 +191,7 @@ const StyledFullPage = styled.div`
 `;
 
 const StyledLoading = styled.div`
-	height: 94vh;
+	min-height: 94vh;
 	display: flex;
 	justify-content: center;
 	align-items: center;

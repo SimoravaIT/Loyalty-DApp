@@ -61,7 +61,7 @@ const StyledHome = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	height: 94vh;
+	min-height: 94vh;
 	padding-left: 30px;
 	padding-right: 30px;
 	padding-top: 6vh;

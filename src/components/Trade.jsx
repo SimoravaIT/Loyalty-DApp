@@ -1,19 +1,94 @@
-import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import USI_logo from '../usi-logo.png';
 
-const Trade = ({
-	account,
-	usiTokenBalance,
-	daiTokenBalance,
-	stakingBalance,
-}) => {
-	const [currentIsStake, setCurrentIsStake] = useState(true);
+const Trade = ({ account, usiTokenBalance }) => {
+	const [currentIsAll, setCurrentIsAll] = useState(true);
 	const [switchHover, setSwitchHover] = useState(false);
-	const { register, handleSubmit } = useForm();
+	const [update, setUpdate] = useState(false);
+	const [purchasedItems, setPurchasedItems] = useState([
+		{
+			name: 'Bag',
+			id: 0,
+			price: 50,
+			img: USI_logo,
+		},
+		{
+			name: 'T-shirt',
+			id: 2,
+			price: 50,
+			img: USI_logo,
+		},
+	]);
+	const [unpurchased, setUnpurchased] = useState([]);
+	const [items, setItems] = useState([
+		{
+			name: 'Bag',
+			id: 0,
+			price: 50,
+			img: USI_logo,
+		},
+		{
+			name: 'Brooch',
+			id: 1,
+			price: 10,
+			img: USI_logo,
+		},
+		{
+			name: 'T-shirt',
+			id: 2,
+			price: 50,
+			img: USI_logo,
+		},
+		{
+			name: 'T-shirt',
+			id: 3,
+			price: 60,
+			img: USI_logo,
+		},
+		{
+			name: 'Thermos',
+			id: 4,
+			price: 50,
+			img: USI_logo,
+		},
+		{
+			name: 'Notebook',
+			id: 5,
+			price: 15,
+			img: USI_logo,
+		},
+		{
+			name: 'Keychain',
+			id: 6,
+			price: 5,
+			img: USI_logo,
+		},
+	]);
+
+	useEffect(() => {
+		let newUnpurchased = [];
+		for (let i = 0; i < items.length; i++) {
+			let purchased = false;
+			for (let j = 0; j < purchasedItems.length; j++) {
+				if (purchasedItems[j].id === items[i].id) {
+					purchased = true;
+				}
+			}
+			if (!purchased) {
+				newUnpurchased.push({
+					name: items[i].name,
+					id: items[i].id,
+					price: items[i].price,
+					img: items[i].img,
+				});
+			}
+		}
+		setUnpurchased(newUnpurchased);
+	}, [update]);
 
 	const onClickSwitch = () => {
-		setCurrentIsStake(!currentIsStake);
+		setCurrentIsAll(!currentIsAll);
 	};
 
 	const onSwitchHover = () => {
@@ -24,78 +99,121 @@ const Trade = ({
 		setSwitchHover(false);
 	};
 
-	const onSubmitStake = (data) => {
-		const stakingValue = data.stakingValue;
-		console.log(stakingValue);
-	};
+	const onSubmitPurchase = (data) => {
+		const itemName = data.itemName;
+		const itemId = data.itemId;
+		const itemPrice = data.itemPrice;
+		const itemImg = data.itemImg;
 
-	const onSubmitUnstake = (data) => {
-		const unstakingValue = data.unstakingValue;
-		console.log(unstakingValue);
+		// Check if it can be purchased and if so, do it
+
+		// If the purchase has been successful:
+		let newPurchasedItems = purchasedItems;
+		for (let i = 0; i < purchasedItems.length; i++) {
+			if (purchasedItems[i].id === itemId) {
+				return;
+			}
+		}
+		newPurchasedItems.push({
+			name: itemName,
+			id: itemId,
+			price: itemPrice,
+			img: itemImg,
+		});
+		setPurchasedItems(newPurchasedItems);
+		setUpdate(!update);
+		// Also, if successfull, update the list of purchased items of the user with newPurchasedItems
 	};
 
 	return (
 		<StyledStaking>
 			<StyledBody>
-				<StyledTitle>Stake DAI to get USITokens</StyledTitle>
-				<StyledBalances>
-					<StyledStakingBalance>
-						Staking Balance:{' '}
+				<StyledTitle>Trade USIToken for exclusive items</StyledTitle>
+				<StyledYourSituation>
+					<StyledBalance>
+						Your USIToken Balance: <b>{usiTokenBalance} USIToken</b>
+					</StyledBalance>
+					<StyledItemsGet>
+						Obtained items:{' '}
 						<b>
-							{stakingBalance}
-							DAI
+							{purchasedItems.length}/{items.length}
 						</b>
-					</StyledStakingBalance>
-					<StyledRewardBalance>
-						Reward Balance: <b>0 USIToken</b>
-					</StyledRewardBalance>
-				</StyledBalances>
+					</StyledItemsGet>
+				</StyledYourSituation>
 				<StyledSwitch
 					onClick={onClickSwitch}
 					onMouseOver={onSwitchHover}
 					onMouseOut={onSwitchOut}
 				>
 					<StyledInnerSwitch>
-						<StyledStake currentIsStake={currentIsStake}>
-							Stake
+						<StyledStake currentIsAll={currentIsAll}>
+							All
 						</StyledStake>
 						<StyledArrow switchHover={switchHover}>↔</StyledArrow>
-						<StyledUnstake currentIsStake={currentIsStake}>
-							Unstake
+						<StyledUnstake currentIsAll={currentIsAll}>
+							Not possessed
 						</StyledUnstake>
 					</StyledInnerSwitch>
 				</StyledSwitch>
-				{currentIsStake ? (
-					<StakingForm onSubmit={handleSubmit(onSubmitStake)}>
-						<StyledInput
-							{...register('stakingValue')}
-							placeholder="Amount of DAI to stake"
-							currentIsStake={currentIsStake}
-						/>
-						<StyledSubmit type="submit" value={'STAKE'} />
-					</StakingForm>
+				{currentIsAll ? (
+					<StyledPurchaseGrid>
+						{items.map(({ name, id, price, img }) => (
+							<StyledItem>
+								<img
+									src={img}
+									height={165}
+									width={165}
+									alt="usi-logo"
+								/>
+								<StyledInfo>
+									<StyledName>{name}</StyledName>
+									<StyledPrice>Price: {price}</StyledPrice>
+								</StyledInfo>
+								<StyledPurchaseButton
+									onClick={() =>
+										onSubmitPurchase({
+											itemName: name,
+											itemId: id,
+											itemPrice: price,
+											itemImg: img,
+										})
+									}
+								>
+									BUY
+								</StyledPurchaseButton>
+							</StyledItem>
+						))}
+					</StyledPurchaseGrid>
 				) : (
-					<StakingForm onSubmit={handleSubmit(onSubmitUnstake)}>
-						<StyledInput
-							{...register('unstakingValue')}
-							placeholder="Amount of DAI to unstake"
-							currentIsStake={currentIsStake}
-						/>
-						<StyledSubmit type="submit" value={'UNSTAKE'} />
-					</StakingForm>
+					<StyledPurchaseGrid>
+						{unpurchased.map(({ name, id, price, img }) => (
+							<StyledItem>
+								<img
+									src={img}
+									height={165}
+									width={165}
+									alt="usi-logo"
+								/>
+								<StyledInfo>
+									<StyledName>{name}</StyledName>
+									<StyledPrice>Price: {price}</StyledPrice>
+								</StyledInfo>
+								<StyledPurchaseButton
+									onClick={() =>
+										onSubmitPurchase({
+											itemName: name,
+											itemId: id,
+											itemPrice: price,
+											itemImg: img,
+										})
+									}
+								>
+									BUY
+								</StyledPurchaseButton>
+							</StyledItem>
+						))}
+					</StyledPurchaseGrid>
 				)}
-				<StyledYourBalances>
-					<StyledStakingBalance>
-						Your DAI Balance:{' '}
-						<b>
-							{daiTokenBalance}
-							DAI
-						</b>
-					</StyledStakingBalance>
-					<StyledRewardBalance>
-						Your USIToken Balance: <b>{usiTokenBalance} USIToken</b>
-					</StyledRewardBalance>
-				</StyledYourBalances>
 			</StyledBody>
 		</StyledStaking>
 	);
@@ -105,10 +223,11 @@ const StyledStaking = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	height: 94vh;
+	min-height: 94vh;
 	padding-left: 30px;
 	padding-right: 30px;
 	padding-top: 6vh;
+	padding-bottom: 6vh;
 `;
 
 const StyledBody = styled.div`
@@ -125,19 +244,19 @@ const StyledTitle = styled.div`
 	align-self: center;
 `;
 
-const StyledBalances = styled.div`
+const StyledYourSituation = styled.div`
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
 	margin-bottom: 50px;
 `;
 
-const StyledStakingBalance = styled.div`
+const StyledBalance = styled.div`
 	border-top: 2px solid black;
 	padding-right: 10px;
 `;
 
-const StyledRewardBalance = styled.div`
+const StyledItemsGet = styled.div`
 	border-top: 2px solid black;
 	padding-left: 10px;
 `;
@@ -154,6 +273,7 @@ const StyledSwitch = styled.div`
 		font-weight: 800;
 		color: black;
 		text-decoration: none;
+		cursor: pointer;
 	}
 `;
 
@@ -164,9 +284,9 @@ const StyledInnerSwitch = styled.div`
 `;
 
 const StyledStake = styled.div`
-	font-weight: ${({ currentIsStake }) => (currentIsStake ? '800' : 'none')};
-	color: ${({ currentIsStake }) =>
-		currentIsStake ? 'rgb(0, 0, 0)' : 'rgba(0, 0, 0, 0.6)'};
+	font-weight: ${({ currentIsAll }) => (currentIsAll ? '800' : 'none')};
+	color: ${({ currentIsAll }) =>
+		currentIsAll ? 'rgb(0, 0, 0)' : 'rgba(0, 0, 0, 0.6)'};
 `;
 
 const StyledArrow = styled.div`
@@ -177,48 +297,62 @@ const StyledArrow = styled.div`
 `;
 
 const StyledUnstake = styled.div`
-	font-weight: ${({ currentIsStake }) => (currentIsStake ? 'none' : '800')};
-	color: ${({ currentIsStake }) =>
-		currentIsStake ? 'rgba(0, 0, 0, 0.6)' : 'rgb(0, 0, 0)'};
+	font-weight: ${({ currentIsAll }) => (currentIsAll ? 'none' : '800')};
+	color: ${({ currentIsAll }) =>
+		currentIsAll ? 'rgba(0, 0, 0, 0.6)' : 'rgb(0, 0, 0)'};
 `;
 
-const StyledYourBalances = styled.div`
+const StyledPurchaseGrid = styled.div`
+	margin-top: 10px;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr;
+	justify-items: center;
+	gap: 10px;
+`;
+
+const StyledItem = styled.div`
+	padding: 10px;
+	border: 2px solid ${({ color }) => color};
 	display: flex;
+	flex-direction: column;
+	width: fit-content;
+`;
+
+const StyledInfo = styled.div`
+	display: flex;
+	padding-top: 20px;
+	padding-bottom: 20px;
 	flex-direction: row;
 	justify-content: space-between;
-	margin-top: 50px;
 `;
 
-const StakingForm = styled.form`
-	padding-top: 5px;
-	display: flex;
-	flex-direction: row;
-`;
-
-const StyledInput = styled.input`
-	width: 50vw;
-	font-size: 1.3em;
-	padding-left: 10px;
+const StyledName = styled.div`
+	border-top: 2px solid black;
 	padding-right: 10px;
-	border: ${({ currentIsStake }) =>
-		currentIsStake
-			? '2px solid rgba(0, 146, 0, 0.75)'
-			: '2px solid rgba(146, 0, 0, 0.75)'};
 `;
 
-const StyledSubmit = styled.input`
-	margin-left: 5px;
-	align-self: left;
-	width: fit-content;
-	background: white;
-	border: 2px solid black;
-	border-radius: 25px;
-	padding-left: 15px;
-	padding-right: 15px;
-	font-size: 1.3em;
+const StyledPrice = styled.div`
+	border-top: 2px solid black;
+	padding-left: 10px;
+`;
+
+const StyledPurchaseButton = styled.div`
+	align-self: center;
+	display: grid;
+	padding: 0px 35px;
+	width: min-content;
+	height: min-content;
+	border-top: 2px solid ${({ color }) => color};
+	border-bottom: 2px solid ${({ color }) => color};
+	color: ${({ color }) => color};
+	text-decoration: none;
+	transition: all 0.25s;
+	font-size: 1.4em;
 	&:hover {
 		font-weight: bold;
+		color: black;
 		text-decoration: none;
+		cursor: pointer;
 	}
 `;
 
