@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import styled from 'styled-components';
 import USI_logo from '../usi-logo.png';
+import { items } from '../assets/items';
 
 const Trade = ({ account, usiTokenBalance }) => {
 	const [currentIsAll, setCurrentIsAll] = useState(true);
 	const [switchHover, setSwitchHover] = useState(false);
-	const [update, setUpdate] = useState(false);
 	const [purchasedItems, setPurchasedItems] = useState([
 		{
 			name: 'Bag',
@@ -20,75 +20,14 @@ const Trade = ({ account, usiTokenBalance }) => {
 			img: USI_logo,
 		},
 	]);
-	const [unpurchased, setUnpurchased] = useState([]);
-	const [items, setItems] = useState([
-		{
-			name: 'Bag',
-			id: 0,
-			price: 50,
-			img: USI_logo,
-		},
-		{
-			name: 'Brooch',
-			id: 1,
-			price: 10,
-			img: USI_logo,
-		},
-		{
-			name: 'T-shirt',
-			id: 2,
-			price: 50,
-			img: USI_logo,
-		},
-		{
-			name: 'T-shirt',
-			id: 3,
-			price: 60,
-			img: USI_logo,
-		},
-		{
-			name: 'Thermos',
-			id: 4,
-			price: 50,
-			img: USI_logo,
-		},
-		{
-			name: 'Notebook',
-			id: 5,
-			price: 15,
-			img: USI_logo,
-		},
-		{
-			name: 'Keychain',
-			id: 6,
-			price: 5,
-			img: USI_logo,
-		},
-	]);
 
-	useEffect(() => {
-		let newUnpurchased = [];
-		for (let i = 0; i < items.length; i++) {
-			let purchased = false;
-			for (let j = 0; j < purchasedItems.length; j++) {
-				if (purchasedItems[j].id === items[i].id) {
-					purchased = true;
-				}
-			}
-			if (!purchased) {
-				newUnpurchased.push({
-					name: items[i].name,
-					id: items[i].id,
-					price: items[i].price,
-					img: items[i].img,
-				});
-			}
-		}
-		setUnpurchased(newUnpurchased);
-	}, [update]);
+	const unpurchasedItems = useMemo(() => {
+		const purchasedIds = purchasedItems.map((item) => item.id);
+		return items.filter((item) => !purchasedIds.includes(item.id));
+	}, [purchasedItems]);
 
 	const onClickSwitch = () => {
-		setCurrentIsAll(!currentIsAll);
+		setCurrentIsAll((current) => !current);
 	};
 
 	const onSwitchHover = () => {
@@ -99,30 +38,23 @@ const Trade = ({ account, usiTokenBalance }) => {
 		setSwitchHover(false);
 	};
 
-	const onSubmitPurchase = (data) => {
-		const itemName = data.itemName;
-		const itemId = data.itemId;
-		const itemPrice = data.itemPrice;
-		const itemImg = data.itemImg;
-
+	const onSubmitPurchase = ({ itemName, itemId, itemPrice, itemImg }) => {
 		// Check if it can be purchased and if so, do it
 
 		// If the purchase has been successful:
-		let newPurchasedItems = purchasedItems;
-		for (let i = 0; i < purchasedItems.length; i++) {
-			if (purchasedItems[i].id === itemId) {
-				return;
-			}
+		let newPurchasedItems = [...purchasedItems];
+		if (purchasedItems.some((item) => item.id === itemId)) {
+			return;
 		}
+
 		newPurchasedItems.push({
 			name: itemName,
 			id: itemId,
 			price: itemPrice,
 			img: itemImg,
 		});
+
 		setPurchasedItems(newPurchasedItems);
-		setUpdate(!update);
-		// Also, if successfull, update the list of purchased items of the user with newPurchasedItems
 	};
 
 	return (
@@ -186,7 +118,7 @@ const Trade = ({ account, usiTokenBalance }) => {
 					</StyledPurchaseGrid>
 				) : (
 					<StyledPurchaseGrid>
-						{unpurchased.map(({ name, id, price, img }) => (
+						{unpurchasedItems.map(({ name, id, price, img }) => (
 							<StyledItem>
 								<img
 									src={img}

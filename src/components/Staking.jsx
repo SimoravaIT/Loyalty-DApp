@@ -9,12 +9,11 @@ const Staking = ({
 	stakingBalance,
 	daiToken,
 	tokenFarm,
-	totalGained
+	totalGained,
 }) => {
 	const [currentIsStake, setCurrentIsStake] = useState(true);
 	const [switchHover, setSwitchHover] = useState(false);
 	const { register, handleSubmit } = useForm();
-
 
 	const onClickSwitch = () => {
 		setCurrentIsStake(!currentIsStake);
@@ -28,31 +27,39 @@ const Staking = ({
 		setSwitchHover(false);
 	};
 
-	const onSubmitStake =  (data) => {
-		//staking data amount 
+	const onSubmitStake = (data) => {
+		//staking data amount
 		const stakingValue = data.stakingValue;
-		
-		if (stakingValue>0){
+
+		if (stakingValue > 0) {
 			//console.log(daiToken.methods.approve(tokenFarm._address,stakingValue).send({from : account}))
-			console.log("add dai -"+daiToken._address);
-			console.log("add tokenf -"+tokenFarm._address);
-			console.log("account - "+account)
-			daiToken.methods.approve(tokenFarm._address,window.web3.utils.toWei(stakingValue, 'Ether').toString()).send({from : account})
-			tokenFarm.methods.stakeTokens(window.web3.utils.toWei(stakingValue, 'Ether').toString()).send({from : account})	
-	}else{
-		//avvisa no valore inserito
-	}
+			console.log('add dai -' + daiToken._address);
+			console.log('add tokenf -' + tokenFarm._address);
+			console.log('account - ' + account);
+			daiToken.methods
+				.approve(
+					tokenFarm._address,
+					window.web3.utils.toWei(stakingValue, 'Ether').toString(),
+				)
+				.send({ from: account });
+			tokenFarm.methods
+				.stakeTokens(
+					window.web3.utils.toWei(stakingValue, 'Ether').toString(),
+				)
+				.send({ from: account });
+		} else {
+			//avvisa no valore inserito
+		}
 	};
 
 	const onSubmitUnstake = (data) => {
 		const unstakingValue = data.unstakingValue;
-		
-		if (unstakingValue>0){
-			tokenFarm.methods.unstakeTokens().send({from : account})	
-		}else{
+
+		if (unstakingValue > 0) {
+			tokenFarm.methods.unstakeTokens().send({ from: account });
+		} else {
 			//avvisa no valore inserito
 		}
-
 	};
 
 	return (
@@ -64,7 +71,7 @@ const Staking = ({
 						Staking Balance:{' '}
 						<b>
 							{window.web3.utils.fromWei(stakingBalance, 'Ether')}
-							 DAI
+							DAI
 						</b>
 					</StyledStakingBalance>
 					<StyledRewardBalance>
@@ -109,12 +116,22 @@ const Staking = ({
 					<StyledStakingBalance>
 						Your DAI Balance:{' '}
 						<b>
-						{window.web3.utils.fromWei(daiTokenBalance, 'Ether')}
+							{window.web3.utils.fromWei(
+								daiTokenBalance,
+								'Ether',
+							)}
 							DAI
 						</b>
 					</StyledStakingBalance>
 					<StyledRewardBalance>
-						Your USIToken Balance: <b>{window.web3.utils.fromWei(usiTokenBalance, 'Ether')} USIToken</b>
+						Your USIToken Balance:{' '}
+						<b>
+							{window.web3.utils.fromWei(
+								usiTokenBalance,
+								'Ether',
+							)}{' '}
+							USIToken
+						</b>
 					</StyledRewardBalance>
 				</StyledYourBalances>
 			</StyledBody>
