@@ -158,6 +158,7 @@ const App = () => {
 									daiToken={daiToken}
 									tokenFarm={tokenFarm}
 									totalGained={totalGained}
+									setStakingBalance={setStakingBalance}
 								/>
 							}
 						/>
