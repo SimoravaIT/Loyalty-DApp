@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import USI_logo from '../usi-logo.png';
 import { items } from '../assets/items';
 
-const Trade = ({ account, usiTokenBalance, tokenFarm,usiToken  }) => {
+const Trade = ({ account, usiTokenBalance, tokenFarm, usiToken, setUsiTokenBalance  }) => {
 	const [currentIsAll, setCurrentIsAll] = useState(true);
 	const [switchHover, setSwitchHover] = useState(false);
 	const [purchasedItems, setPurchasedItems] = useState([
@@ -38,16 +38,18 @@ const Trade = ({ account, usiTokenBalance, tokenFarm,usiToken  }) => {
 		setSwitchHover(false);
 	};
 
-	const onSubmitPurchase = async ({ itemName, itemId, itemPrice, itemImg }) => {
+	const onSubmitPurchase =  async ({ itemName, itemId, itemPrice, itemImg }) => {
 		// Check if it can be purchased and if so, do it
-		usiToken.methods
-				.approve(
-					tokenFarm._address,
-					itemPrice
-				)
-				.send({ from: account });
-		await tokenFarm.methods.buyItem(itemId,window.web3.utils.toWei(itemPrice, 'Ether'));
-		console.log("ciao")
+		console.log(itemPrice.toString())
+		await usiToken.methods.approve(tokenFarm._address,window.web3.utils.toWei(itemPrice.toString(), 'Ether').toString()).send({ from: account });
+		const prova =await tokenFarm.methods.buyItem(itemId,window.web3.utils.toWei(itemPrice.toString(), 'Ether').toString()).send({from: account});//here
+		const newBalance = await usiToken.methods.balanceOf(account).call();
+		//setUsiTokenBalance(newBalance);
+		//const prova = await tokenFarm.methods.itemsBuyed(account).call();
+		//const prova = await tokenFarm.methods.obtainItems() 
+		//console.log(prova)
+		//const prova = await tokenFarm.methods.buyItem(account,itemPrice).send({from: account});
+		console.log("ssss"+parseInt(prova[0]))
 		// If the purchase has been successful:
 		let newPurchasedItems = [...purchasedItems];
 		if (purchasedItems.some((item) => item.id === itemId)) {

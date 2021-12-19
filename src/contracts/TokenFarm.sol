@@ -16,14 +16,21 @@ contract TokenFarm{
     UsiToken public usiToken;
     address public owner;
 
+    struct itemsBought{
+        uint[] x;
+    }
+
+
     address[] public stakers;  //keep track of all the address that have ever staked
     mapping(address => uint) public stakingBalance; //quanto balance ha in staking ognuno 
     mapping(address => bool) public hasStaked;  //
     mapping(address => bool) public isStaking; //keep 
     mapping(address => uint) public totalObtained;
-    mapping(address=> uint[]) public itemsBuyed;
+    mapping(address =>itemsBought) itemsBuyed;
+    //mapping(address => items) itemsBuyed;
 
 
+  
     //this function is going to be executed only once when it depoloy on the network
     //ci servono gli address dei due token usi e dai li diamo in parametro
     constructor(UsiToken _usiToken, DaiToken _daiToken) public {
@@ -32,8 +39,6 @@ contract TokenFarm{
         //dichiaro owner, colui che deploy lo smart contract, solo lui puo dare i rewards.
         owner = msg.sender;
     }
-
-
 
 
     // staking function, qua l investitore mette i dai nell app che gli daranno rewards in usitoken tipo un deposito di denaro
@@ -101,11 +106,13 @@ contract TokenFarm{
         }
     }
 
-    function buyItem(uint _id, uint _price) public {
-        require(usiToken.balanceOf(msg.sender)>_price);
-        usiToken.transfer(address(this), _price);
-        itemsBuyed[msg.sender].push(_id);
+    function buyItem(uint _id, uint _price) public returns(uint[] memory temp) {
+        require(usiToken.balanceOf(msg.sender) > _price);
+        usiToken.transferFrom(msg.sender, address(this), _price);
+       // itemsBuyed[msg.sender].push(_id);
+        itemsBuyed[msg.sender].x.push(_id);
+        temp = itemsBuyed[msg.sender].x;
+ 
     }
 
 }
-
