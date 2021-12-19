@@ -169,6 +169,8 @@ const App = () => {
 								<Trade
 									account={account}
 									usiTokenBalance={usiTokenBalance}
+									tokenFarm={tokenFarm}
+									usiToken={usiToken}
 								/>
 							}
 						/>

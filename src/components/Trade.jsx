@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import USI_logo from '../usi-logo.png';
 import { items } from '../assets/items';
 
-const Trade = ({ account, usiTokenBalance }) => {
+const Trade = ({ account, usiTokenBalance, tokenFarm,usiToken  }) => {
 	const [currentIsAll, setCurrentIsAll] = useState(true);
 	const [switchHover, setSwitchHover] = useState(false);
 	const [purchasedItems, setPurchasedItems] = useState([
@@ -38,9 +38,16 @@ const Trade = ({ account, usiTokenBalance }) => {
 		setSwitchHover(false);
 	};
 
-	const onSubmitPurchase = ({ itemName, itemId, itemPrice, itemImg }) => {
+	const onSubmitPurchase = async ({ itemName, itemId, itemPrice, itemImg }) => {
 		// Check if it can be purchased and if so, do it
-
+		usiToken.methods
+				.approve(
+					tokenFarm._address,
+					itemPrice
+				)
+				.send({ from: account });
+		await tokenFarm.methods.buyItem(itemId,window.web3.utils.toWei(itemPrice, 'Ether'));
+		console.log("ciao")
 		// If the purchase has been successful:
 		let newPurchasedItems = [...purchasedItems];
 		if (purchasedItems.some((item) => item.id === itemId)) {
@@ -109,6 +116,7 @@ const Trade = ({ account, usiTokenBalance }) => {
 											itemPrice: price,
 											itemImg: img,
 										})
+
 									}
 								>
 									BUY

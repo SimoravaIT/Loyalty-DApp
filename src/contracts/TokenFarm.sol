@@ -21,6 +21,8 @@ contract TokenFarm{
     mapping(address => bool) public hasStaked;  //
     mapping(address => bool) public isStaking; //keep 
     mapping(address => uint) public totalObtained;
+    mapping(address=> uint[]) public itemsBuyed;
+
 
     //this function is going to be executed only once when it depoloy on the network
     //ci servono gli address dei due token usi e dai li diamo in parametro
@@ -78,6 +80,7 @@ contract TokenFarm{
         stakingBalance[msg.sender] = stakingBalance[msg.sender] - _amount;
         if(stakingBalance[msg.sender]==0){
              isStaking[msg.sender] = false;
+        }
     }
 
     //issuing token guadagnere interesssi.
@@ -97,5 +100,12 @@ contract TokenFarm{
             }
         }
     }
+
+    function buyItem(uint _id, uint _price) public {
+        require(usiToken.balanceOf(msg.sender)>_price);
+        usiToken.transfer(address(this), _price);
+        itemsBuyed[msg.sender].push(_id);
+    }
+
 }
 
