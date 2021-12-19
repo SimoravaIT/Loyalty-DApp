@@ -22,5 +22,18 @@ await usiToken.transfer(tokenFarm.address,'1000000000000000000000000')
 
 //nessuno ha dai a parte l account che ha deploy it(guarda costruttore che ha balanceOf[msg.sender] = totalSupply;
 //quindi trasferiamo un po di dai a un plausibile investitore(account 1)
-await daiToken.transfer(accounts[1], '1000000000000000000')
+await daiToken.transfer(accounts[1], '15400000000000000000000')
+await daiToken.transfer(accounts[2], '334000000000000000000')
+await daiToken.transfer(accounts[3], '4000000000000000000')
+await daiToken.transfer(accounts[4], '5000000000000000000')
+await daiToken.transfer(accounts[5], '6000000000000000000')
+await daiToken.transfer(accounts[6], '7000000000000000000')
+await daiToken.transfer(accounts[7], '8000000000000000000')
+await daiToken.transfer(accounts[8], '9000000000000000000')
+await daiToken.transfer(accounts[9], '100000000000000000000')
+
+
+
+
+
 }

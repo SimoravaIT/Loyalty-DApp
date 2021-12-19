@@ -40,7 +40,11 @@ const Staking = ({
 				<StyledTitle>Stake DAI to get USITokens</StyledTitle>
 				<StyledBalances>
 					<StyledStakingBalance>
-						Staking Balance: <b>{stakingBalance} DAI</b>
+						Staking Balance:{' '}
+						<b>
+							{window.web3.utils.fromWei(stakingBalance, 'Ether')}{' '}
+							DAI
+						</b>
 					</StyledStakingBalance>
 					<StyledRewardBalance>
 						Reward Balance: <b>0 USIToken</b>
@@ -82,7 +86,14 @@ const Staking = ({
 				)}
 				<StyledYourBalances>
 					<StyledStakingBalance>
-						Your DAI Balance: <b>{daiTokenBalance} DAI</b>
+						Your DAI Balance:{' '}
+						<b>
+							{window.web3.utils.fromWei(
+								daiTokenBalance,
+								'Ether',
+							)}{' '}
+							DAI
+						</b>
 					</StyledStakingBalance>
 					<StyledRewardBalance>
 						Your USIToken Balance: <b>{usiTokenBalance} USIToken</b>
