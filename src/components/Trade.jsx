@@ -63,7 +63,7 @@ const Trade = ({ account, usiTokenBalance }) => {
 				<StyledTitle>Trade USIToken for exclusive items</StyledTitle>
 				<StyledYourSituation>
 					<StyledBalance>
-						Your USIToken Balance: <b>{usiTokenBalance} USIToken</b>
+						Your USIToken Balance: <b>{window.web3.utils.fromWei(usiTokenBalance, 'Ether')} USIToken</b>
 					</StyledBalance>
 					<StyledItemsGet>
 						Obtained items:{' '}

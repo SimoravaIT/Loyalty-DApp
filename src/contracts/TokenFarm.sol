@@ -78,7 +78,6 @@ contract TokenFarm{
         stakingBalance[msg.sender] = stakingBalance[msg.sender] - _amount;
         if(stakingBalance[msg.sender]==0){
              isStaking[msg.sender] = false;
-        }
     }
 
     //issuing token guadagnere interesssi.
