@@ -146,6 +146,19 @@ const App = () => {
 								/>
 							}
 						/>
+						<Route
+							exact
+							path="/"
+							element={
+								<Staking
+									account={account}
+									usiTokenBalance={usiTokenBalance}
+									daiTokenBalance={daiTokenBalance}
+									stakingBalance={stakingBalance}
+								/>
+							}
+						/>
+
 
 						<Route path="*" element={<Navigate to="/" />} />
 					</Routes>
