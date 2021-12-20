@@ -17,8 +17,8 @@ const Survey = ({
 			.getAnswers(account)
 			.call()
 			.then(function(x) {
-				if (x === []) {
-					return;
+				if (x.length === 0) {
+					setAnswers(null);
 				} else {
 					setAnswers({ ds: x[0], fav: x[1], remarks: x[2] });
 				}
