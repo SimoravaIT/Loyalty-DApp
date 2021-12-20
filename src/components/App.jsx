@@ -80,7 +80,6 @@ const App = () => {
 				.balanceOf(accounts[0])
 				.call();
 			setUsiTokenBalance(newUsiTokenBalance);
-
 		} else {
 			window.alert('UsiToken contract not deployed to detected network');
 		}
@@ -161,6 +160,8 @@ const App = () => {
 									tokenFarm={tokenFarm}
 									totalGained={totalGained}
 									setStakingBalance={setStakingBalance}
+									setDaiTokenBalance={setDaiTokenBalance}
+									setUsiTokenBalance={setUsiTokenBalance}
 								/>
 							}
 						/>
@@ -172,7 +173,7 @@ const App = () => {
 									usiTokenBalance={usiTokenBalance}
 									tokenFarm={tokenFarm}
 									usiToken={usiToken}
-									setUsiTokenBalance= {setUsiTokenBalance}
+									setUsiTokenBalance={setUsiTokenBalance}
 								/>
 							}
 						/>

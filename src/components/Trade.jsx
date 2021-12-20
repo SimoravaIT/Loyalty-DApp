@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import styled from 'styled-components';
 import USI_logo from '../usi-logo.png';
 import { items } from '../assets/items';
@@ -12,24 +12,21 @@ const Trade = ({
 }) => {
 	const [currentIsAll, setCurrentIsAll] = useState(true);
 	const [switchHover, setSwitchHover] = useState(false);
-	const [purchasedItems, setPurchasedItems] = useState([
-		{
-			name: 'Bag',
-			id: 0,
-			price: 50,
-			img: USI_logo,
-		},
-		{
-			name: 'T-shirt',
-			id: 2,
-			price: 50,
-			img: USI_logo,
-		},
-	]);
+	const [purchasedItems, setPurchasedItems] = useState([]);
+
+	useEffect(() => {
+		tokenFarm.methods
+			.getItems(account)
+			.call()
+			.then(function(x) {
+				setPurchasedItems(x);
+			});
+	}, []);
 
 	const unpurchasedItems = useMemo(() => {
-		const purchasedIds = purchasedItems.map((item) => item.id);
-		return items.filter((item) => !purchasedIds.includes(item.id));
+		return items.filter(
+			(item) => !purchasedItems.includes(item.id.toString()),
+		);
 	}, [purchasedItems]);
 
 	const onClickSwitch = () => {
@@ -59,7 +56,6 @@ const Trade = ({
 					.toString(),
 			)
 			.send({ from: account });
-		//const prova =
 		await tokenFarm.methods
 			.buyItem(
 				itemId,
@@ -71,37 +67,42 @@ const Trade = ({
 		const newBalance = await usiToken.methods.balanceOf(account).call();
 		setUsiTokenBalance(newBalance);
 		await tokenFarm.methods.buyItem(itemId, itemPrice); //.send({from: account})
-		tokenFarm.methods.getItems(account).call().then(function (x){console.log(x)})
+		tokenFarm.methods
+			.getItems(account)
+			.call()
+			.then(function(x) {
+				setPurchasedItems(x);
+			});
 
 		// If the purchase has been successful:
-		let newPurchasedItems = [...purchasedItems];
-		if (purchasedItems.some((item) => item.id === itemId)) {
-			return;
-		}
+		// let newPurchasedItems = [...purchasedItems];
+		// if (purchasedItems.some((item) => item.id === itemId)) {
+		// 	return;
+		// }
 
-		newPurchasedItems.push({
-			name: itemName,
-			id: itemId,
-			price: itemPrice,
-			img: itemImg,
-		});
+		// newPurchasedItems.push({
+		// 	name: itemName,
+		// 	id: itemId,
+		// 	price: itemPrice,
+		// 	img: itemImg,
+		// });
 
-		setPurchasedItems(newPurchasedItems);
+		// setPurchasedItems(newPurchasedItems);
 	};
 
 	return (
 		<StyledStaking>
 			<StyledBody>
-				<StyledTitle>Trade USIToken for exclusive items</StyledTitle>
+				<StyledTitle>Trade USI_Tk for exclusive items</StyledTitle>
 				<StyledYourSituation>
 					<StyledBalance>
-						Your USIToken Balance:{' '}
+						Your USI_Tk Balance:{' '}
 						<b>
 							{window.web3.utils.fromWei(
 								usiTokenBalance,
 								'Ether',
 							)}{' '}
-							USIToken
+							USI_Tk
 						</b>
 					</StyledBalance>
 					<StyledItemsGet>

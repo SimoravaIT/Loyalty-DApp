@@ -17,7 +17,7 @@ const Survey = ({ account, usiTokenBalance }) => {
 				<StyledTitle>Fill the Survey to receive USITokens</StyledTitle>
 				<StyledYourSituation>
 					<StyledBalance>
-						Your USIToken Balance: <b>{usiTokenBalance} USIToken</b>
+						Your USI_Tk Balance: <b>{usiTokenBalance} USI_Tk</b>
 					</StyledBalance>
 				</StyledYourSituation>
 				<StakingForm onSubmit={handleSubmit(onSubmitStake)}>
