@@ -33,26 +33,28 @@ const Home = ({
 			<StyledTrade to="trade" color="rgb(0, 0, 0)" key="trade">
 				Trade
 			</StyledTrade>
-			<StyledText>Your current address is:</StyledText>
-			<StyledValue>{account}</StyledValue>
-			<StyledText>
-				Your current <b>USI Token</b> balance is:
-			</StyledText>
-			<StyledValue>
-				{window.web3.utils.fromWei(usiTokenBalance, 'Ether')}
-			</StyledValue>
-			<StyledText>
-				Your current <b>DAI Token</b> balance is:
-			</StyledText>
-			<StyledValue>
-				{window.web3.utils.fromWei(daiTokenBalance, 'Ether')}
-			</StyledValue>
-			<StyledText>
-				Your current <b>Staking balance</b> is:
-			</StyledText>
-			<StyledValue>
-				{window.web3.utils.fromWei(stakingBalance, 'Ether')}
-			</StyledValue>
+			<StyledInfoContainer>
+				<StyledInfo>Your current address is:</StyledInfo>
+				<StyledValue>{account}</StyledValue>
+				<StyledInfo>
+					Your current <b>USI Token</b> balance is:
+				</StyledInfo>
+				<StyledValue>
+					{window.web3.utils.fromWei(usiTokenBalance, 'Ether')}
+				</StyledValue>
+				<StyledInfo>
+					Your current <b>DAI Token</b> balance is:
+				</StyledInfo>
+				<StyledValue>
+					{window.web3.utils.fromWei(daiTokenBalance, 'Ether')}
+				</StyledValue>
+				<StyledInfo>
+					Your current <b>Staking balance</b> is:
+				</StyledInfo>
+				<StyledValue>
+					{window.web3.utils.fromWei(stakingBalance, 'Ether')}
+				</StyledValue>
+			</StyledInfoContainer>
 		</StyledHome>
 	);
 };
@@ -77,8 +79,22 @@ const StyledText = styled.div`
 	font-size: 22px;
 `;
 
+const StyledInfoContainer = styled.div`
+	display: flex;
+	flex-direction: column;
+	width: 500px;
+`;
+
+const StyledInfo = styled.div`
+	font-size: 1em;
+	border-top: 2px solid black;
+	font-weight: bold;
+	width: fit-content;
+	padding-right: 10px;
+`;
+
 const StyledValue = styled.div`
-	font-size: 25px;
+	font-size: 1em;
 	padding-bottom: 20px;
 `;
 
