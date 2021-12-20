@@ -1,16 +1,18 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import USI_logo from '../usi-logo.png';
 
 const Header = (account) => {
 	return (
 		<StyledHeader>
 			<StyledLeft>
-				<img src={USI_logo} height={40} alt="usi-logo" />
+				<StyledLink to="/" key="/">
+					<img src={USI_logo} height={40} alt="usi-logo" />
+				</StyledLink>
 			</StyledLeft>
 			<StyledCenter>Loyalty DAPP</StyledCenter>
 			<StyledRight>Distributed Systems, 2021</StyledRight>
-	
 		</StyledHeader>
 	);
 };
@@ -30,6 +32,13 @@ const StyledHeader = styled.div`
 
 const StyledLeft = styled.div`
 	//
+`;
+
+const StyledLink = styled(Link)`
+	text-decoration: none;
+	&:hover {
+		text-decoration: none;
+	}
 `;
 
 const StyledCenter = styled.div`
