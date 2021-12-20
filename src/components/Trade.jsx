@@ -213,7 +213,7 @@ const StyledBody = styled.div`
 	display: flex;
 	flex-direction: column;
 	width: 50vw;
-	min-width: 500px;
+	min-width: 750px;
 `;
 
 const StyledTitle = styled.div`

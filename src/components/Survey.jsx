@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
 
-const Survey = ({ account, usiTokenBalance }) => {
+const Survey = ({ account, usiTokenBalance, setUsiTokenBalance }) => {
 	const { register, handleSubmit } = useForm();
 	const [answers, setAsnwers] = useState(null);
 
@@ -21,7 +21,14 @@ const Survey = ({ account, usiTokenBalance }) => {
 				<StyledTitle>Fill the Survey to receive USITokens</StyledTitle>
 				<StyledYourSituation>
 					<StyledBalance>
-						Your USI_Tk Balance: <b>{usiTokenBalance} USI_Tk</b>
+						Your USI_Tk Balance:{' '}
+						<b>
+							{window.web3.utils.fromWei(
+								usiTokenBalance,
+								'Ether',
+							)}{' '}
+							USI_Tk
+						</b>
 					</StyledBalance>
 				</StyledYourSituation>
 				<StakingForm onSubmit={handleSubmit(onSubmitStake)}>

@@ -182,6 +182,7 @@ const App = () => {
 								<Survey
 									account={account}
 									usiTokenBalance={usiTokenBalance}
+									setUsiTokenBalance={setUsiTokenBalance}
 								/>
 							}
 						/>
