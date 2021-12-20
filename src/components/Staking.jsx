@@ -35,10 +35,10 @@ const Staking = ({
 			alert('Insert a valid value');
 			return;
 		}
-		if (stakingValue > daiTokenBalance) {
-			alert('Not enough DAI balance');
-			return;
-		}
+		// if (stakingValue > daiTokenBalance) {
+		// 	alert('Not enough DAI balance');
+		// 	return;
+		// }
 
 		if (stakingValue > 0) {
 			daiToken.methods
