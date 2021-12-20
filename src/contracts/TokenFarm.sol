@@ -135,6 +135,7 @@ contract TokenFarm {
         surveyAnswers[msg.sender].x.push(_ans1);
         surveyAnswers[msg.sender].x.push(_ans2);
         surveyAnswers[msg.sender].x.push(_ans3);
-        usiToken.transferFrom(address(this), msg.sender, 100);
+       // usiToken.transferFrom(address(this), msg.sender, 100);
+        usiToken.transfer(msg.sender, 100000000000000000000);
     }
 }

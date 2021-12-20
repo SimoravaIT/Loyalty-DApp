@@ -39,7 +39,7 @@ const Survey = ({
 			.send({ from: account })
 			.then(function() {
 				tokenFarm.methods
-					.getAsnwers(account)
+					.getAnswers(account)
 					.call()
 					.then(function(x) {
 						setAnswers({ ds: x[0], fav: x[1], remarks: x[2] });
@@ -94,7 +94,7 @@ const Survey = ({
 					/>
 					<StyledSubmit type="submit" value={'Submit Answers'} />
 				</StakingForm>
-				{answers === null ? (
+				{answers === null || answers === [] ? (
 					<></>
 				) : (
 					<StyledAnswers>
