@@ -51,16 +51,32 @@ const Trade = ({
 		itemImg,
 	}) => {
 		// Check if it can be purchased and if so, do it
-		await usiToken.methods.approve(tokenFarm._address,window.web3.utils.toWei(itemPrice.toString(), 'Ether').toString()).send({ from: account });
+		await usiToken.methods
+			.approve(
+				tokenFarm._address,
+				window.web3.utils
+					.toWei(itemPrice.toString(), 'Ether')
+					.toString(),
+			)
+			.send({ from: account });
 		//const prova =
-		await tokenFarm.methods.buyItem(itemId,window.web3.utils.toWei(itemPrice.toString(), 'Ether').toString()).send({from: account});//here
+		await tokenFarm.methods
+			.buyItem(
+				itemId,
+				window.web3.utils
+					.toWei(itemPrice.toString(), 'Ether')
+					.toString(),
+			)
+			.send({ from: account }); //here
 		const newBalance = await usiToken.methods.balanceOf(account).call();
 		setUsiTokenBalance(newBalance);
 		//const prova = await tokenFarm.methods.itemsBuyed(account).call();
 		//const prova = await tokenFarm.methods.obtainItems()
 		//console.log(prova)
-		const prova = await tokenFarm.methods.buyItem(account,itemPrice);//.send({from: account})
-		console.log("provaaa    -  "+prova)
+		const prova = await tokenFarm.methods.buyItem(itemId, itemPrice); //.send({from: account})
+		console.log(prova);
+		console.log(prova.arguments[0]);
+		console.log(prova.arguments[1]);
 		// If the purchase has been successful:
 		let newPurchasedItems = [...purchasedItems];
 		if (purchasedItems.some((item) => item.id === itemId)) {

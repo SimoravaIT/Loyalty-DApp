@@ -1,36 +1,33 @@
 pragma solidity >=0.5.0;
 
-
-//importare i token che ci servono qua 
+//importare i token che ci servono qua
 import "./UsiToken.sol";
 import "./DaiToken.sol";
 
-contract TokenFarm{
+contract TokenFarm {
     //all code of the contract goes here
 
     //quando creiamo una variabile state come qua, che é nello smart contract, il suo valore sará salvato nella blockchain,
     //essendo pubblica potremo accedervi da fuori
-    string public name ="USI Token farm";
-    
+    string public name = "USI Token farm";
+
     DaiToken public daiToken; //due variabili che assegnamo gli indirizzi tramite costruttore, servono per tutto lo smart contract
     UsiToken public usiToken;
     address public owner;
 
-    struct itemsBought{
-        uint[] x;
+    struct itemsBought {
+        uint256[] x;
     }
 
+    address[] public stakers; //keep track of all the address that have ever staked
+    mapping(address => uint256) public stakingBalance; //quanto balance ha in staking ognuno
+    mapping(address => bool) public hasStaked; //
+    mapping(address => bool) public isStaking; //keep
+    mapping(address => uint256) public totalObtained;
+    mapping(address => itemsBought) itemsBuyed;
 
-    address[] public stakers;  //keep track of all the address that have ever staked
-    mapping(address => uint) public stakingBalance; //quanto balance ha in staking ognuno 
-    mapping(address => bool) public hasStaked;  //
-    mapping(address => bool) public isStaking; //keep 
-    mapping(address => uint) public totalObtained;
-    mapping(address =>itemsBought) itemsBuyed;
     //mapping(address => items) itemsBuyed;
 
-
-  
     //this function is going to be executed only once when it depoloy on the network
     //ci servono gli address dei due token usi e dai li diamo in parametro
     constructor(UsiToken _usiToken, DaiToken _daiToken) public {
@@ -40,11 +37,10 @@ contract TokenFarm{
         owner = msg.sender;
     }
 
-
     // staking function, qua l investitore mette i dai nell app che gli daranno rewards in usitoken tipo un deposito di denaro
-    function stakeTokens(uint _amount) public{
+    function stakeTokens(uint256 _amount) public {
         //se falso require stoppa tutto e da exception, altrimenti va avanti
-        require(_amount>0,"amount cannot be 0");
+        require(_amount > 0, "amount cannot be 0");
 
         //transfert dai from the user to this contract for staking
         daiToken.transferFrom(msg.sender, address(this), _amount);
@@ -52,67 +48,67 @@ contract TokenFarm{
         stakingBalance[msg.sender] = stakingBalance[msg.sender] + _amount;
 
         //se nn ha mai fatto staking aggiungilo all array per nn avere errori di puntatore inesistente
-        if(!hasStaked[msg.sender]){
+        if (!hasStaked[msg.sender]) {
             stakers.push(msg.sender);
         }
         isStaking[msg.sender] = true;
         hasStaked[msg.sender] = true;
-
     }
-
 
     //unstaking token, toglierlo dallo staking un prelevo di denaro tipo
 
-    function unstakeTokens() public{
-        uint balance = stakingBalance[msg.sender];
-        require (balance >0, "staking balance cannot be 0");
+    function unstakeTokens() public {
+        uint256 balance = stakingBalance[msg.sender];
+        require(balance > 0, "staking balance cannot be 0");
 
         //transfer token from the app to the user
         daiToken.transfer(msg.sender, balance);
 
-        stakingBalance[msg.sender] =0;
+        stakingBalance[msg.sender] = 0;
 
         isStaking[msg.sender] = false;
     }
 
-    function unstakeNTokens(uint _amount) public{
-        uint balance = stakingBalance[msg.sender];
-        require (balance > _amount, "staking balance greater than amount");
+    function unstakeNTokens(uint256 _amount) public {
+        uint256 balance = stakingBalance[msg.sender];
+        require(balance > _amount, "staking balance greater than amount");
 
         //transfer token from the app to the user
         daiToken.transfer(msg.sender, _amount);
 
         stakingBalance[msg.sender] = stakingBalance[msg.sender] - _amount;
-        if(stakingBalance[msg.sender]==0){
-             isStaking[msg.sender] = false;
+        if (stakingBalance[msg.sender] == 0) {
+            isStaking[msg.sender] = false;
         }
     }
 
     //issuing token guadagnere interesssi.
-    function issueTokens() public{
-
+    function issueTokens() public {
         //nn deve poterla eseguire chiunque ma solo il proprietario del contratto quindi metto req
         //il proprietario deve chiamarla ogni tot, ogni gorno sett blocco o ecc
         require(msg.sender == owner, "caller must be the owner");
 
         //rewards in base a quanto depositano, se depositano mille gli diamo mille
-        for (uint i=0; i < stakers.length; i++){
+        for (uint256 i = 0; i < stakers.length; i++) {
             address recipient = stakers[i];
-            uint balance = stakingBalance[recipient];
-            if(balance>0){
-                usiToken.transfer(recipient,(balance/2));
-                totalObtained[recipient]=totalObtained[recipient]+(balance/2);
+            uint256 balance = stakingBalance[recipient];
+            if (balance > 0) {
+                usiToken.transfer(recipient, (balance / 2));
+                totalObtained[recipient] =
+                    totalObtained[recipient] +
+                    (balance / 2);
             }
         }
     }
 
-    function buyItem(uint _id, uint _price) public returns(uint[] memory temp) {
+    function buyItem(uint256 _id, uint256 _price)
+        public
+        returns (uint256[] memory temp)
+    {
         require(usiToken.balanceOf(msg.sender) > _price);
         usiToken.transferFrom(msg.sender, address(this), _price);
-       // itemsBuyed[msg.sender].push(_id);
+        // itemsBuyed[msg.sender].push(_id);
         itemsBuyed[msg.sender].x.push(_id);
         temp = itemsBuyed[msg.sender].x;
- 
     }
-
 }
