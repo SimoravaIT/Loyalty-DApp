@@ -35,10 +35,6 @@ const Staking = ({
 			alert('Insert a valid value');
 			return;
 		}
-		// if (stakingValue > daiTokenBalance) {
-		// 	alert('Not enough DAI balance');
-		// 	return;
-		// }
 
 		if (stakingValue > 0) {
 			daiToken.methods
@@ -81,10 +77,6 @@ const Staking = ({
 		const unstakingValue = data.unstakingValue;
 		if (isNaN(unstakingValue)) {
 			alert('Insert a valid value');
-			return;
-		}
-		if (unstakingValue > stakingBalance) {
-			alert('Not enough Staking balance');
 			return;
 		}
 
