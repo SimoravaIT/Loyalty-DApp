@@ -1,18 +1,58 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
 
-const Survey = ({ account, usiTokenBalance, setUsiTokenBalance }) => {
+const Survey = ({
+	account,
+	usiTokenBalance,
+	tokenFarm,
+	usiToken,
+	setUsiTokenBalance,
+}) => {
 	const { register, handleSubmit } = useForm();
-	const [answers, setAsnwers] = useState(null);
+	const [answers, setAnswers] = useState(null);
+
+	useEffect(() => {
+		tokenFarm.methods
+			.getAnswers(account)
+			.call()
+			.then(function(x) {
+				if (x === []) {
+					return;
+				} else {
+					setAnswers({ ds: x[0], fav: x[1], remarks: x[2] });
+				}
+			});
+	}, []);
 
 	const onSubmitStake = (data) => {
+		if (answers !== null && answers !== []) {
+			alert('You have already completed this survey once');
+			return;
+		}
 		if (data.ds === '' || data.fav === '') {
 			alert('Please answer all questions');
 			return;
 		}
-		setAsnwers({ ds: data.ds, fav: data.fav, remarks: data.remarks });
-		// Give USITokens to the user
+		tokenFarm.methods
+			.completeSurvey(data.ds, data.fav, data.remarks)
+			.send({ from: account })
+			.then(function() {
+				tokenFarm.methods
+					.getAsnwers(account)
+					.call()
+					.then(function(x) {
+						setAnswers({ ds: x[0], fav: x[1], remarks: x[2] });
+					});
+			})
+			.then(function() {
+				usiToken.methods
+					.balanceOf(account)
+					.call()
+					.then(function(x) {
+						setUsiTokenBalance(x);
+					});
+			});
 	};
 
 	return (

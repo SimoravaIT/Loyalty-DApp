@@ -1,4 +1,5 @@
 pragma solidity >=0.5.0;
+pragma experimental ABIEncoderV2;
 
 //importare i token che ci servono qua
 import "./UsiToken.sol";
@@ -19,12 +20,17 @@ contract TokenFarm {
         uint256[] x;
     }
 
+    struct givenAnswers {
+        string[] x;
+    }
+
     address[] public stakers; //keep track of all the address that have ever staked
     mapping(address => uint256) public stakingBalance; //quanto balance ha in staking ognuno
     mapping(address => bool) public hasStaked; //
     mapping(address => bool) public isStaking; //keep
     mapping(address => uint256) public totalObtained;
     mapping(address => itemsBought) itemsBuyed;
+    mapping(address => givenAnswers) surveyAnswers;
 
     //mapping(address => items) itemsBuyed;
 
@@ -39,6 +45,10 @@ contract TokenFarm {
 
     function getItems(address _add) public view returns (uint256[] memory) {
         return itemsBuyed[_add].x;
+    }
+
+    function getAnswers(address _add) public view returns (string[] memory) {
+        return surveyAnswers[_add].x;
     }
 
     // staking function, qua l investitore mette i dai nell app che gli daranno rewards in usitoken tipo un deposito di denaro
@@ -114,5 +124,17 @@ contract TokenFarm {
         require(usiToken.balanceOf(msg.sender) > _price);
         usiToken.transferFrom(msg.sender, address(this), _price);
         itemsBuyed[msg.sender].x.push(_id);
+    }
+
+    function completeSurvey(
+        string memory _ans1,
+        string memory _ans2,
+        string memory _ans3
+    ) public {
+        require(surveyAnswers[msg.sender].x.length == 0);
+        surveyAnswers[msg.sender].x.push(_ans1);
+        surveyAnswers[msg.sender].x.push(_ans2);
+        surveyAnswers[msg.sender].x.push(_ans3);
+        usiToken.transferFrom(address(this), msg.sender, 100);
     }
 }
