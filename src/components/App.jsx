@@ -55,16 +55,16 @@ const App = () => {
 		const accounts = await web3.eth.getAccounts();
 
 		setAccount(accounts[0]);
-		console.log('account: ' + accounts[0]);
+		// console.log('account: ' + accounts[0]);
 		//5777 che é il network id per ganache nel json file
 		const networkId = await web3.eth.net.getId();
-		console.log('netID, should be 5777: ' + networkId);
+		// console.log('netID, should be 5777: ' + networkId);
 		//prendiamo usiToken values dal json file, dal json deriviamo l address utilizzando network id
 
 		const usiTokenData = UsiToken.networks[networkId];
-		console.log(
-			'usitoken address , should be 0x901...FA4: ' + usiTokenData.address,
-		);
+		// console.log(
+		// 	'usitoken address , should be 0x901...FA4: ' + usiTokenData.address,
+		// );
 		if (usiTokenData) {
 			//address of usiToken gained from the json file
 			const newUsiToken = new web3.eth.Contract(
@@ -72,10 +72,10 @@ const App = () => {
 				usiTokenData.address,
 			);
 			setUsiToken(newUsiToken);
-			console.log(
-				'usi token balance =' +
-					(await newUsiToken.methods.balanceOf(accounts[0]).call()),
-			);
+			// console.log(
+			// 	'usi token balance =' +
+			// 		(await newUsiToken.methods.balanceOf(accounts[0]).call()),
+			// );
 			const newUsiTokenBalance = await newUsiToken.methods
 				.balanceOf(accounts[0])
 				.call();
@@ -85,7 +85,7 @@ const App = () => {
 		}
 
 		const daiTokenData = DaiToken.networks[networkId];
-		console.log('daiToken address: ' + daiTokenData.address);
+		// console.log('daiToken address: ' + daiTokenData.address);
 		if (daiTokenData) {
 			const newDaiToken = new web3.eth.Contract(
 				DaiToken.abi,
@@ -93,10 +93,10 @@ const App = () => {
 			);
 			//address of daiToken gained from the json file
 			setDaiToken(newDaiToken);
-			console.log(
-				'dai token balance =' +
-					(await newDaiToken.methods.balanceOf(accounts[0]).call()),
-			);
+			// console.log(
+			// 	'dai token balance =' +
+			// 		(await newDaiToken.methods.balanceOf(accounts[0]).call()),
+			// );
 			const newDaiTokenBalance = await newDaiToken.methods
 				.balanceOf(accounts[0])
 				.call();
@@ -106,19 +106,19 @@ const App = () => {
 		}
 
 		const tokenFarmData = TokenFarm.networks[networkId];
-		console.log('tokenfarm address: ' + tokenFarmData.address);
+		// console.log('tokenfarm address: ' + tokenFarmData.address);
 		if (tokenFarmData) {
 			const newTokenFarm = new web3.eth.Contract(
 				TokenFarm.abi,
 				tokenFarmData.address,
 			);
 			setTokenFarm(newTokenFarm);
-			console.log(
-				'staking balance =' +
-					(await newTokenFarm.methods
-						.stakingBalance(accounts[0])
-						.call()),
-			);
+			// console.log(
+			// 	'staking balance =' +
+			// 		(await newTokenFarm.methods
+			// 			.stakingBalance(accounts[0])
+			// 			.call()),
+			// );
 			const newStakingBalance = await newTokenFarm.methods
 				.stakingBalance(accounts[0])
 				.call();
@@ -161,7 +161,6 @@ const App = () => {
 									totalGained={totalGained}
 									setStakingBalance={setStakingBalance}
 									setDaiTokenBalance={setDaiTokenBalance}
-									setUsiTokenBalance={setUsiTokenBalance}
 								/>
 							}
 						/>

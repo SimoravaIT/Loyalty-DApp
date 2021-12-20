@@ -1,6 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import styled from 'styled-components';
-import USI_logo from '../usi-logo.png';
 import { items } from '../assets/items';
 
 const Trade = ({
@@ -41,53 +40,63 @@ const Trade = ({
 		setSwitchHover(false);
 	};
 
-	const onSubmitPurchase = async ({
-		itemName,
-		itemId,
-		itemPrice,
-		itemImg,
-	}) => {
-		// Check if it can be purchased and if so, do it
-		await usiToken.methods
-			.approve(
-				tokenFarm._address,
-				window.web3.utils
-					.toWei(itemPrice.toString(), 'Ether')
-					.toString(),
-			)
-			.send({ from: account });
-		await tokenFarm.methods
-			.buyItem(
-				itemId,
-				window.web3.utils
-					.toWei(itemPrice.toString(), 'Ether')
-					.toString(),
-			)
-			.send({ from: account }); //here
-		const newBalance = await usiToken.methods.balanceOf(account).call();
-		setUsiTokenBalance(newBalance);
-		await tokenFarm.methods.buyItem(itemId, itemPrice); //.send({from: account})
-		tokenFarm.methods
-			.getItems(account)
-			.call()
-			.then(function(x) {
-				setPurchasedItems(x);
-			});
-
-		// If the purchase has been successful:
-		// let newPurchasedItems = [...purchasedItems];
-		// if (purchasedItems.some((item) => item.id === itemId)) {
-		// 	return;
-		// }
-
-		// newPurchasedItems.push({
-		// 	name: itemName,
-		// 	id: itemId,
-		// 	price: itemPrice,
-		// 	img: itemImg,
-		// });
-
-		// setPurchasedItems(newPurchasedItems);
+	const onSubmitPurchase = async ({ itemId, itemPrice }) => {
+		if (usiTokenBalance >= itemPrice) {
+			await usiToken.methods
+				.approve(
+					tokenFarm._address,
+					window.web3.utils
+						.toWei(itemPrice.toString(), 'Ether')
+						.toString(),
+				)
+				.send({ from: account })
+				.then(function() {
+					if (purchasedItems.includes(itemId.toString())) {
+						tokenFarm.methods
+							.buyItem(
+								window.web3.utils
+									.toWei(itemPrice.toString(), 'Ether')
+									.toString(),
+							)
+							.send({ from: account })
+							.then(function() {
+								usiToken.methods
+									.balanceOf(account)
+									.call()
+									.then(function(x) {
+										setUsiTokenBalance(x);
+									});
+							});
+					} else {
+						tokenFarm.methods
+							.buyNewItem(
+								itemId,
+								window.web3.utils
+									.toWei(itemPrice.toString(), 'Ether')
+									.toString(),
+							)
+							.send({ from: account })
+							.then(function() {
+								usiToken.methods
+									.balanceOf(account)
+									.call()
+									.then(function(x) {
+										setUsiTokenBalance(x);
+									});
+							})
+							.then(function() {
+								tokenFarm.methods
+									.getItems(account)
+									.call()
+									.then(function(x) {
+										setPurchasedItems(x);
+									});
+							});
+					}
+				});
+		} else {
+			alert('Not enough USI_Tk');
+		}
 	};
 
 	return (
@@ -144,10 +153,8 @@ const Trade = ({
 								<StyledPurchaseButton
 									onClick={() =>
 										onSubmitPurchase({
-											itemName: name,
 											itemId: id,
 											itemPrice: price,
-											itemImg: img,
 										})
 									}
 								>

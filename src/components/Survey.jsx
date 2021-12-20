@@ -7,6 +7,10 @@ const Survey = ({ account, usiTokenBalance }) => {
 	const [answers, setAsnwers] = useState(null);
 
 	const onSubmitStake = (data) => {
+		if (data.ds === '' || data.fav === '') {
+			alert('Please answer all questions');
+			return;
+		}
 		setAsnwers({ ds: data.ds, fav: data.fav, remarks: data.remarks });
 		// Give USITokens to the user
 	};

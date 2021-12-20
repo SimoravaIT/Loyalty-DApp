@@ -12,7 +12,6 @@ const Staking = ({
 	totalGained,
 	setStakingBalance,
 	setDaiTokenBalance,
-	setUsiTokenBalance,
 }) => {
 	const [currentIsStake, setCurrentIsStake] = useState(true);
 	const [switchHover, setSwitchHover] = useState(false);
@@ -31,8 +30,15 @@ const Staking = ({
 	};
 
 	const onSubmitStake = async (data) => {
-		//staking data amount
 		const stakingValue = data.stakingValue;
+		if (isNaN(stakingValue)) {
+			alert('Insert a valid value');
+			return;
+		}
+		if (stakingValue > daiTokenBalance) {
+			alert('Not enough DAI balance');
+			return;
+		}
 
 		if (stakingValue > 0) {
 			daiToken.methods
@@ -67,12 +73,20 @@ const Staking = ({
 						});
 				});
 		} else {
-			//avvisa no valore inserito
+			alert('Insert a valid value');
 		}
 	};
 
 	const onSubmitUnstake = async (data) => {
 		const unstakingValue = data.unstakingValue;
+		if (isNaN(unstakingValue)) {
+			alert('Insert a valid value');
+			return;
+		}
+		if (unstakingValue > stakingBalance) {
+			alert('Not enough Staking balance');
+			return;
+		}
 
 		if (unstakingValue > 0) {
 			tokenFarm.methods
@@ -97,7 +111,7 @@ const Staking = ({
 						});
 				});
 		} else {
-			//avvisa no valore inserito
+			alert('Insert a valid value');
 		}
 	};
 

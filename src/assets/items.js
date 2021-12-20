@@ -20,7 +20,7 @@ export const items = [
 		img: USI_logo,
 	},
 	{
-		name: 'T-shirt',
+		name: 'Mug',
 		id: 3,
 		price: 60,
 		img: USI_logo,
