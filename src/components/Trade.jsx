@@ -70,13 +70,9 @@ const Trade = ({
 			.send({ from: account }); //here
 		const newBalance = await usiToken.methods.balanceOf(account).call();
 		setUsiTokenBalance(newBalance);
-		//const prova = await tokenFarm.methods.itemsBuyed(account).call();
-		//const prova = await tokenFarm.methods.obtainItems()
-		//console.log(prova)
-		const prova = await tokenFarm.methods.buyItem(itemId, itemPrice); //.send({from: account})
-		console.log(prova);
-		console.log(prova.arguments[0]);
-		console.log(prova.arguments[1]);
+		await tokenFarm.methods.buyItem(itemId, itemPrice); //.send({from: account})
+		tokenFarm.methods.getItems(account).call().then(function (x){console.log(x)})
+
 		// If the purchase has been successful:
 		let newPurchasedItems = [...purchasedItems];
 		if (purchasedItems.some((item) => item.id === itemId)) {

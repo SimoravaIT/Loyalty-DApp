@@ -18,7 +18,9 @@ module.exports = async function(deployer, network, accounts) {
 
 
 //qua abbiamo gia depositato tutti gli smart contract, pero voglio mettere anche TUTTI gli usitoken dentro la farm per darli poi a chi farma
-await usiToken.transfer(tokenFarm.address,'1000000000000000000000000')
+await usiToken.transfer(tokenFarm.address,'10000000000000000000000')
+await usiToken.transfer(accounts[1],'100000000000000000000')
+//await usiToken.transfer(tokenFarm.address,'1000000000000000000000000')
 
 //nessuno ha dai a parte l account che ha deploy it(guarda costruttore che ha balanceOf[msg.sender] = totalSupply;
 //quindi trasferiamo un po di dai a un plausibile investitore(account 1)

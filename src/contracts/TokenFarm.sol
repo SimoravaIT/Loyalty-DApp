@@ -19,6 +19,7 @@ contract TokenFarm {
         uint256[] x;
     }
 
+
     address[] public stakers; //keep track of all the address that have ever staked
     mapping(address => uint256) public stakingBalance; //quanto balance ha in staking ognuno
     mapping(address => bool) public hasStaked; //
@@ -36,7 +37,9 @@ contract TokenFarm {
         //dichiaro owner, colui che deploy lo smart contract, solo lui puo dare i rewards.
         owner = msg.sender;
     }
-
+    function getItems(address _add) public view returns(uint[] memory){
+        return itemsBuyed[_add].x;
+    }
     // staking function, qua l investitore mette i dai nell app che gli daranno rewards in usitoken tipo un deposito di denaro
     function stakeTokens(uint256 _amount) public {
         //se falso require stoppa tutto e da exception, altrimenti va avanti
@@ -101,14 +104,11 @@ contract TokenFarm {
         }
     }
 
-    function buyItem(uint256 _id, uint256 _price)
-        public
-        returns (uint256[] memory temp)
-    {
+    function buyItem(uint _id, uint _price) public returns(uint[] memory) {
         require(usiToken.balanceOf(msg.sender) > _price);
         usiToken.transferFrom(msg.sender, address(this), _price);
         // itemsBuyed[msg.sender].push(_id);
         itemsBuyed[msg.sender].x.push(_id);
-        temp = itemsBuyed[msg.sender].x;
+        return itemsBuyed[msg.sender].x;
     }
 }
